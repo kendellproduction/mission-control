@@ -280,6 +280,45 @@
             margin-bottom: 24px;
         }
         
+        /* TODO List */
+        .todo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: #1a1a24;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        
+        .todo-item:hover {
+            background: #252535;
+        }
+        
+        .todo-item input[type="checkbox"] {
+            accent-color: #00ff88;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        
+        .todo-item label {
+            cursor: pointer;
+            color: #aaa;
+        }
+        
+        .todo-item input:checked + label {
+            text-decoration: line-through;
+            color: #666;
+        }
+        
         .stat-card {
             background: #12121a;
             border-radius: 8px;
@@ -414,9 +453,44 @@
             
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">💡 Suggestions</span>
-                    <span class="badge" id="suggestionBadge">0 New</span>
+                    <span class="panel-title">📋 TODO</span>
+                    <span class="badge" id="todoBadge">0 Done</span>
                 </div>
+                <div id="todoList" class="todo-list">
+                    <div class="todo-item">
+                        <input type="checkbox" id="todo1" checked>
+                        <label for="todo1">Set up Goober with Telegram</label>
+                    </div>
+                    <div class="todo-item">
+                        <input type="checkbox" id="todo2" checked>
+                        <label for="todo2">Create Mission Control dashboard</label>
+                    </div>
+                    <div class="todo-item">
+                        <input type="checkbox" id="todo3" checked>
+                        <label for="todo3">Fix HelpUscape contact form</label>
+                    </div>
+                    <div class="todo-item">
+                        <input type="checkbox" id="todo4">
+                        <label for="todo4">Set up Firebase for HelpUscape</label>
+                    </div>
+                    <div class="todo-item">
+                        <input type="checkbox" id="todo5">
+                        <label for="todo5">Add Codex API to Code Bot</label>
+                    </div>
+                    <div class="todo-item">
+                        <input type="checkbox" id="todo6">
+                        <label for="todo6">Design audit HelpUscape</label>
+                    </div>
+                    <div class="todo-item">
+                        <input type="checkbox" id="todo7">
+                        <label for="todo7">Start Lake Salt development</label>
+                    </div>
+                    <div class="todo-item">
+                        <input type="checkbox" id="todo8">
+                        <label for="todo8">Upgrade Mission Control with live data</label>
+                    </div>
+                </div>
+            </div>
                 <div id="suggestions">
                     <div class="empty-state">
                         No suggestions yet
