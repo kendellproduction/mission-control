@@ -367,6 +367,45 @@
             color: var(--text-muted);
         }
         
+        /* Capabilities */
+        .capability-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .capability-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .capability-item:hover {
+            background: #22222e;
+        }
+        
+        .capability-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .capability-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .capability-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+        
         /* Stats */
         .stats-row {
             display: grid;
@@ -641,9 +680,79 @@
             <div class="col-6">
                 <div class="panel">
                     <div class="panel-header">
+                        <span class="panel-title">⚡ What I Can Do</span>
+                    </div>
+                    <div class="capability-grid">
+                        <div class="capability-item">
+                            <div class="capability-icon">💻</div>
+                            <div class="capability-content">
+                                <div class="capability-title">Code & Build</div>
+                                <div class="capability-desc">Write code, create features, fix bugs, set up projects</div>
+                            </div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">🎨</div>
+                            <div class="capability-content">
+                                <div class="capability-title">Design & Polish</div>
+                                <div class="capability-desc">UI/UX improvements, animations, premium feel</div>
+                            </div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">🔍</div>
+                            <div class="capability-content">
+                                <div class="capability-title">Research</div>
+                                <div class="capability-desc">Competitor analysis, grants, market research</div>
+                            </div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">✍️</div>
+                            <div class="capability-content">
+                                <div class="capability-title">Content</div>
+                                <div class="capability-desc">Marketing copy, emails, website content</div>
+                            </div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">🔗</div>
+                            <div class="capability-content">
+                                <div class="capability-title">GitHub</div>
+                                <div class="capability-desc">Branches, PRs, repos, deployment</div>
+                            </div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">🔥</div>
+                            <div class="capability-content">
+                                <div class="capability-title">Firebase</div>
+                                <div class="capability-desc">Databases, auth, setup (when you add me)</div>
+                            </div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">📊</div>
+                            <div class="capability-content">
+                                <div class="capability-title">Strategy</div>
+                                <div class="capability-desc">PM frameworks, roadmaps, project planning</div>
+                            </div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">🤖</div>
+                            <div class="capability-content">
+                                <div class="capability-title">Bot Management</div>
+                                <div class="capability-desc">Create sub-agents, automate tasks</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-6">
+                <div class="panel">
+                    <div class="panel-header">
                         <span class="panel-title">📊 Activity Log</span>
                     </div>
                     <div class="activity-list">
+                        <div class="activity-item">
+                            <span class="activity-time">10:30</span>
+                            <span class="activity-text">Hero section redesign - cleaner, smoother animation</span>
+                        </div>
                         <div class="activity-item">
                             <span class="activity-time">16:30</span>
                             <span class="activity-text">Mission Control redesign completed</span>
