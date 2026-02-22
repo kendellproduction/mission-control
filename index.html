@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mission Control</title>
     <style>
         * {
@@ -31,12 +31,13 @@
             color: #e0e0e0;
             min-height: 100vh;
             line-height: 1.5;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 16px;
         }
         
         /* Header */
@@ -44,52 +45,58 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px 0;
+            padding: 16px 0 20px;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 32px;
+            margin-bottom: 20px;
+            gap: 12px;
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            flex: 1;
         }
         
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background: linear-gradient(135deg, var(--accent), #00aa55);
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
+            flex-shrink: 0;
         }
         
         h1 {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--text-primary);
             letter-spacing: -0.5px;
+            white-space: nowrap;
         }
         
         .logo-subtitle {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
-            margin-top: 2px;
+            margin-top: 1px;
+            display: none;
         }
         
         .status {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 13px;
+            gap: 8px;
+            font-size: 11px;
             color: var(--text-secondary);
+            white-space: nowrap;
         }
         
         .status-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: var(--accent);
             border-radius: 50%;
             animation: pulse 2s infinite;
@@ -100,26 +107,18 @@
             50% { opacity: 0.7; transform: scale(0.95); }
         }
         
-        /* Grid */
+        /* Grid - Mobile First */
         .grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
-        }
-        
-        .col-8 { grid-column: span 8; }
-        .col-4 { grid-column: span 4; }
-        .col-6 { grid-column: span 6; }
-        
-        @media (max-width: 1100px) {
-            .col-8, .col-4, .col-6 { grid-column: span 12; }
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
         
         /* Panels */
         .panel {
             background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 24px;
+            border-radius: 12px;
+            padding: 16px;
             border: 1px solid var(--border);
         }
         
@@ -127,23 +126,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 8px;
         }
         
         .panel-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .badge {
             background: var(--bg-card);
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
         }
         
@@ -152,78 +153,108 @@
             color: var(--accent);
         }
         
-        /* Bot Grid */
-        .bot-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+        /* Stats - Horizontal scroll on mobile */
+        .stats-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
         }
         
-        @media (max-width: 900px) {
-            .bot-grid { grid-template-columns: repeat(2, 1fr); }
+        .stats-row::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 14px 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            min-width: 80px;
+            flex-shrink: 0;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        
+        /* Bot Grid - 2 columns mobile */
+        .bot-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
         }
         
         .bot-card {
             background: var(--bg-card);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 14px;
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .bot-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 255, 136, 0.1);
+            transition: all 0.2s ease;
         }
         
         .bot-header {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
         
         .bot-icon {
-            width: 44px;
-            height: 44px;
+            width: 36px;
+            height: 36px;
             background: linear-gradient(135deg, #2a2a3a, #1a1a24);
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 18px;
+            flex-shrink: 0;
         }
         
         .bot-info {
             flex: 1;
+            min-width: 0;
         }
         
         .bot-name {
             font-weight: 600;
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .bot-role {
-            font-size: 12px;
+            font-size: 10px;
             color: var(--accent);
-            margin-top: 2px;
+            margin-top: 1px;
         }
         
         .bot-status {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 11px;
+            gap: 5px;
+            font-size: 10px;
             color: var(--text-muted);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .bot-status-dot {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
             background: var(--accent);
         }
@@ -238,19 +269,19 @@
         }
         
         .bot-activity {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-secondary);
-            padding-top: 12px;
+            padding-top: 10px;
             border-top: 1px solid var(--border);
-            line-height: 1.5;
+            line-height: 1.4;
         }
         
         .bot-activity-label {
-            font-size: 10px;
+            font-size: 9px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--text-muted);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
         
         /* TODO */
@@ -263,11 +294,11 @@
         .todo-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
+            gap: 10px;
+            padding: 12px;
             background: var(--bg-card);
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             transition: all 0.2s;
         }
         
@@ -287,6 +318,7 @@
             cursor: pointer;
             color: var(--text-secondary);
             flex: 1;
+            line-height: 1.3;
         }
         
         .todo-item input:checked + label {
@@ -295,11 +327,12 @@
         }
         
         .todo-priority {
-            font-size: 10px;
-            padding: 2px 8px;
+            font-size: 9px;
+            padding: 2px 6px;
             border-radius: 4px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            flex-shrink: 0;
         }
         
         .priority-high {
@@ -325,9 +358,10 @@
         
         .activity-item {
             display: flex;
-            gap: 12px;
-            padding: 12px 0;
+            gap: 10px;
+            padding: 10px 0;
             border-bottom: 1px solid var(--border);
+            font-size: 12px;
         }
         
         .activity-item:last-child {
@@ -335,49 +369,51 @@
         }
         
         .activity-time {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-muted);
             min-width: 45px;
+            flex-shrink: 0;
         }
         
         .activity-text {
-            font-size: 13px;
             color: var(--text-secondary);
+            line-height: 1.4;
         }
         
         /* Suggestions */
         .suggestion-card {
             background: var(--bg-card);
             border-radius: 8px;
-            padding: 14px;
+            padding: 12px;
             margin-bottom: 10px;
             border-left: 3px solid var(--accent);
         }
         
         .suggestion-text {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-secondary);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            line-height: 1.4;
         }
         
         .suggestion-meta {
             display: flex;
             justify-content: space-between;
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-muted);
         }
         
-        /* Capabilities */
+        /* Capabilities - 2 columns mobile */
         .capability-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
         }
         
         .capability-item {
             display: flex;
             align-items: flex-start;
-            gap: 10px;
+            gap: 8px;
             padding: 12px;
             background: var(--bg-card);
             border-radius: 8px;
@@ -389,62 +425,52 @@
         }
         
         .capability-icon {
-            font-size: 20px;
+            font-size: 18px;
             flex-shrink: 0;
         }
         
         .capability-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-primary);
         }
         
         .capability-desc {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-muted);
             margin-top: 2px;
-            line-height: 1.4;
+            line-height: 1.3;
         }
         
-        /* Stats */
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
+        /* Larger tablets */
+        @media (min-width: 600px) {
+            .container { padding: 20px; }
+            .logo-subtitle { display: block; }
+            h1 { font-size: 22px; }
+            .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); }
+            .stat-card { padding: 18px; }
+            .stat-value { font-size: 28px; }
+            .stat-label { font-size: 11px; }
+            .bot-grid { gap: 14px; }
+            .bot-card { padding: 16px; }
+            .capability-grid { gap: 14px; }
         }
         
-        .stat-card {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-        
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--accent);
-            line-height: 1;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 6px;
-        }
-        
-        @media (max-width: 768px) {
-            .stats-row { grid-template-columns: repeat(2, 1fr); }
-        }
-        
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 30px;
-            color: var(--text-muted);
-            font-size: 13px;
+        /* Desktop */
+        @media (min-width: 900px) {
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(12, 1fr);
+                gap: 20px;
+            }
+            .col-8 { grid-column: span 8; }
+            .col-4 { grid-column: span 4; }
+            .col-6 { grid-column: span 6; }
+            .bot-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+            .capability-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+            .panel { padding: 20px; }
+            .panel-title { font-size: 15px; }
+            .capability-title { font-size: 13px; }
         }
     </style>
 </head>
@@ -460,26 +486,26 @@
             </div>
             <div class="status">
                 <div class="status-dot"></div>
-                <span>All Systems Operational</span>
+                <span>Online</span>
             </div>
         </header>
         
         <div class="stats-row">
             <div class="stat-card">
                 <div class="stat-value">6</div>
-                <div class="stat-label">Active Bots</div>
+                <div class="stat-label">Bots</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">0</div>
-                <div class="stat-label">Pending Approval</div>
+                <div class="stat-label">Pending</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">3</div>
-                <div class="stat-label">Tasks Done</div>
+                <div class="stat-value">4</div>
+                <div class="stat-label">Done</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">5</div>
-                <div class="stat-label">In Progress</div>
+                <div class="stat-value">6</div>
+                <div class="stat-label">Active</div>
             </div>
         </div>
         
@@ -488,7 +514,7 @@
                 <div class="panel">
                     <div class="panel-header">
                         <span class="panel-title">🤖 Bot Squad</span>
-                        <span class="badge badge-accent">6 Active</span>
+                        <span class="badge badge-accent">6</span>
                     </div>
                     <div class="bot-grid">
                         <div class="bot-card">
@@ -504,8 +530,8 @@
                                 <span>Online</span>
                             </div>
                             <div class="bot-activity">
-                                <div class="bot-activity-label">Last Activity</div>
-                                Managing bot squad, coordinating tasks
+                                <div class="bot-activity-label">Active</div>
+                                Managing everything
                             </div>
                         </div>
                         
@@ -522,8 +548,8 @@
                                 <span>Working</span>
                             </div>
                             <div class="bot-activity">
-                                <div class="bot-activity-label">Current Task</div>
-                                HelpUscape contact form - email working
+                                <div class="bot-activity-label">Task</div>
+                                HelpUscape redesign
                             </div>
                         </div>
                         
@@ -532,7 +558,7 @@
                                 <div class="bot-icon">🎨</div>
                                 <div class="bot-info">
                                     <div class="bot-name">Design Bot</div>
-                                    <div class="bot-role">UI/UX Design</div>
+                                    <div class="bot-role">UI/UX</div>
                                 </div>
                             </div>
                             <div class="bot-status">
@@ -540,8 +566,8 @@
                                 <span>Ready</span>
                             </div>
                             <div class="bot-activity">
-                                <div class="bot-activity-label">Ready For</div>
-                                Design audit, component polish
+                                <div class="bot-activity-label">Ready</div>
+                                Design polish
                             </div>
                         </div>
                         
@@ -549,7 +575,7 @@
                             <div class="bot-header">
                                 <div class="bot-icon">✨</div>
                                 <div class="bot-info">
-                                    <div class="bot-name">Frontend Bot</div>
+                                    <div class="bot-name">Frontend</div>
                                     <div class="bot-role">Animations</div>
                                 </div>
                             </div>
@@ -558,8 +584,8 @@
                                 <span>Ready</span>
                             </div>
                             <div class="bot-activity">
-                                <div class="bot-activity-label">Ready For</div>
-                                Scroll animations, micro-interactions
+                                <div class="bot-activity-label">Ready</div>
+                                Animations
                             </div>
                         </div>
                         
@@ -567,7 +593,7 @@
                             <div class="bot-header">
                                 <div class="bot-icon">🔍</div>
                                 <div class="bot-info">
-                                    <div class="bot-name">Research Bot</div>
+                                    <div class="bot-name">Research</div>
                                     <div class="bot-role">Analysis</div>
                                 </div>
                             </div>
@@ -576,8 +602,8 @@
                                 <span>Ready</span>
                             </div>
                             <div class="bot-activity">
-                                <div class="bot-activity-label">Ready For</div>
-                                Competitor research, grants
+                                <div class="bot-activity-label">Ready</div>
+                                Research
                             </div>
                         </div>
                         
@@ -585,7 +611,7 @@
                             <div class="bot-header">
                                 <div class="bot-icon">✍️</div>
                                 <div class="bot-info">
-                                    <div class="bot-name">Writer Bot</div>
+                                    <div class="bot-name">Writer</div>
                                     <div class="bot-role">Content</div>
                                 </div>
                             </div>
@@ -594,8 +620,8 @@
                                 <span>Ready</span>
                             </div>
                             <div class="bot-activity">
-                                <div class="bot-activity-label">Ready For</div>
-                                Marketing copy, content
+                                <div class="bot-activity-label">Ready</div>
+                                Content
                             </div>
                         </div>
                     </div>
@@ -606,7 +632,7 @@
                 <div class="panel">
                     <div class="panel-header">
                         <span class="panel-title">📋 TODO</span>
-                        <span class="badge">3 Done</span>
+                        <span class="badge">4 Done</span>
                     </div>
                     <div class="todo-list">
                         <div class="todo-item">
@@ -616,12 +642,17 @@
                         </div>
                         <div class="todo-item">
                             <input type="checkbox" id="todo2" checked>
-                            <label for="todo2">Create Mission Control dashboard</label>
+                            <label for="todo2">Create Mission Control</label>
                             <span class="todo-priority priority-high">Done</span>
                         </div>
                         <div class="todo-item">
                             <input type="checkbox" id="todo3" checked>
                             <label for="todo3">Fix HelpUscape contact form</label>
+                            <span class="todo-priority priority-high">Done</span>
+                        </div>
+                        <div class="todo-item">
+                            <input type="checkbox" id="todo3b" checked>
+                            <label for="todo3b">Create brand guidelines</label>
                             <span class="todo-priority priority-high">Done</span>
                         </div>
                         <div class="todo-item">
@@ -631,17 +662,17 @@
                         </div>
                         <div class="todo-item">
                             <input type="checkbox" id="todo9">
-                            <label for="todo9">Set up Vercel for deployments</label>
+                            <label for="todo9">Set up Vercel deployment</label>
                             <span class="todo-priority priority-high">High</span>
                         </div>
                         <div class="todo-item">
                             <input type="checkbox" id="todo10">
-                            <label for="todo10">Apply to SLC Farmers Market (due May)</label>
+                            <label for="todo10">Apply to SLC Farmers Market</label>
                             <span class="todo-priority priority-high">High</span>
                         </div>
                         <div class="todo-item">
                             <input type="checkbox" id="todo11">
-                            <label for="todo11">Prepare wedding expo materials (May 9)</label>
+                            <label for="todo11">Wedding expo materials (May 9)</label>
                             <span class="todo-priority priority-high">High</span>
                         </div>
                         <div class="todo-item">
@@ -651,56 +682,13 @@
                         </div>
                         <div class="todo-item">
                             <input type="checkbox" id="todo6">
-                            <label for="todo6">Design audit HelpUscape</label>
+                            <label for="todo6">Complete HelpUscape design</label>
                             <span class="todo-priority priority-medium">Med</span>
                         </div>
                         <div class="todo-item">
                             <input type="checkbox" id="todo7">
-                            <label for="todo7">Start Lake Salt development</label>
+                            <label for="todo7">Start Lake Salt dev</label>
                             <span class="todo-priority priority-low">Low</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-6">
-                <div class="panel">
-                    <div class="panel-header">
-                        <span class="panel-title">💡 Suggestions</span>
-                    </div>
-                    <div class="suggestion-card">
-                        <div class="suggestion-text">Add custom domain to Mission Control for easier access</div>
-                        <div class="suggestion-meta">
-                            <span>Infrastructure</span>
-                            <span>+1 vote</span>
-                        </div>
-                    </div>
-                    <div class="suggestion-card">
-                        <div class="suggestion-text">Set up model specialization - different bots use different AI models</div>
-                        <div class="suggestion-meta">
-                            <span>Architecture</span>
-                            <span>+1 vote</span>
-                        </div>
-                    </div>
-                    <div class="suggestion-card">
-                        <div class="suggestion-text">Create Lake Salt repo and start initial spec</div>
-                        <div class="suggestion-meta">
-                            <span>Projects</span>
-                            <span>+1 vote</span>
-                        </div>
-                    </div>
-                    <div class="suggestion-card">
-                        <div class="suggestion-text">Apply to Downtown SLC Farmers Market (opens soon)</div>
-                        <div class="suggestion-meta">
-                            <span>Lake Salt</span>
-                            <span>June-Oct</span>
-                        </div>
-                    </div>
-                    <div class="suggestion-card">
-                        <div class="suggestion-text">Design wedding expo materials for May 9</div>
-                        <div class="suggestion-meta">
-                            <span>Lake Salt</span>
-                            <span>1600 brides</span>
                         </div>
                     </div>
                 </div>
@@ -715,71 +703,57 @@
                         <div class="capability-item">
                             <div class="capability-icon">💻</div>
                             <div class="capability-content">
-                                <div class="capability-title">Code & Build</div>
-                                <div class="capability-desc">Write code, create features, fix bugs, set up projects</div>
+                                <div class="capability-title">Code</div>
+                                <div class="capability-desc">Write code, features, fix bugs</div>
                             </div>
                         </div>
                         <div class="capability-item">
                             <div class="capability-icon">🎨</div>
                             <div class="capability-content">
-                                <div class="capability-title">Design & Polish</div>
-                                <div class="capability-desc">UI/UX improvements, animations, premium feel</div>
+                                <div class="capability-title">Design</div>
+                                <div class="capability-desc">UI/UX, polish, animations</div>
                             </div>
                         </div>
                         <div class="capability-item">
                             <div class="capability-icon">🔍</div>
                             <div class="capability-content">
                                 <div class="capability-title">Research</div>
-                                <div class="capability-desc">Competitor analysis, grants, market research</div>
+                                <div class="capability-desc">Competitors, grants, markets</div>
                             </div>
                         </div>
                         <div class="capability-item">
                             <div class="capability-icon">✍️</div>
                             <div class="capability-content">
                                 <div class="capability-title">Content</div>
-                                <div class="capability-desc">Marketing copy, emails, website content</div>
+                                <div class="capability-desc">Copy, captions, posts</div>
                             </div>
                         </div>
                         <div class="capability-item">
                             <div class="capability-icon">🔗</div>
                             <div class="capability-content">
                                 <div class="capability-title">GitHub</div>
-                                <div class="capability-desc">Branches, PRs, repos, deployment</div>
+                                <div class="capability-desc">Branches, PRs, repos</div>
                             </div>
                         </div>
                         <div class="capability-item">
                             <div class="capability-icon">🔥</div>
                             <div class="capability-content">
                                 <div class="capability-title">Firebase</div>
-                                <div class="capability-desc">Databases, auth, setup (when you add me)</div>
-                            </div>
-                        </div>
-                        <div class="capability-item">
-                            <div class="capability-icon">📊</div>
-                            <div class="capability-content">
-                                <div class="capability-title">Strategy</div>
-                                <div class="capability-desc">PM frameworks, roadmaps, project planning</div>
+                                <div class="capability-desc">DB, auth, setup</div>
                             </div>
                         </div>
                         <div class="capability-item">
                             <div class="capability-icon">🎨</div>
                             <div class="capability-content">
-                                <div class="capability-title">Canva Content</div>
-                                <div class="capability-desc">Social posts, specs & copy for Canva</div>
+                                <div class="capability-title">Canva</div>
+                                <div class="capability-desc">Specs, copy for designs</div>
                             </div>
                         </div>
                         <div class="capability-item">
                             <div class="capability-icon">📐</div>
                             <div class="capability-content">
-                                <div class="capability-title">Figma Specs</div>
-                                <div class="capability-desc">Detailed specs for UI design</div>
-                            </div>
-                        </div>
-                        <div class="capability-item">
-                            <div class="capability-icon">🤖</div>
-                            <div class="capability-content">
-                                <div class="capability-title">Bot Management</div>
-                                <div class="capability-desc">Create sub-agents, automate tasks</div>
+                                <div class="capability-title">Figma</div>
+                                <div class="capability-desc">Specs for UI design</div>
                             </div>
                         </div>
                     </div>
@@ -789,32 +763,24 @@
             <div class="col-6">
                 <div class="panel">
                     <div class="panel-header">
-                        <span class="panel-title">📊 Activity Log</span>
+                        <span class="panel-title">📊 Activity</span>
                     </div>
                     <div class="activity-list">
                         <div class="activity-item">
                             <span class="activity-time">10:30</span>
-                            <span class="activity-text">Created Lake Salt brand system, content examples</span>
-                        </div>
-                        <div class="activity-item">
-                            <span class="activity-time">16:30</span>
-                            <span class="activity-text">Mission Control redesign completed</span>
-                        </div>
-                        <div class="activity-item">
-                            <span class="activity-time">16:15</span>
-                            <span class="activity-text">Design & Frontend bots created</span>
+                            <span class="activity-text">Lake Salt brand & content</span>
                         </div>
                         <div class="activity-item">
                             <span class="activity-time">10:15</span>
-                            <span class="activity-text">Contact form tested - emails working!</span>
+                            <span class="activity-text">Hero redesign - smoother</span>
                         </div>
                         <div class="activity-item">
-                            <span class="activity-time">10:10</span>
-                            <span class="activity-text">Sub-agents created (Code, Research, Writer)</span>
+                            <span class="activity-time">09:30</span>
+                            <span class="activity-text">MC redesign complete</span>
                         </div>
                         <div class="activity-item">
                             <span class="activity-time">09:20</span>
-                            <span class="activity-text">Telegram pairing approved</span>
+                            <span class="activity-text">Telegram connected</span>
                         </div>
                     </div>
                 </div>
