@@ -8,779 +8,440 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
-            --bg-primary: #05050a;
-            --bg-secondary: #0a0a15;
-            --bg-screen: #080812;
-            --border: #1a1a2e;
+            --bg-dark: #050508;
+            --bg-room: #0a0a12;
             --accent-cyan: #00d4ff;
-            --accent-blue: #0066ff;
             --accent-green: #00ff88;
-            --accent-orange: #ff6600;
-            --accent-red: #ff3366;
-            --text-primary: #ffffff;
-            --text-secondary: #8899aa;
-            --text-dim: #445566;
-            --glow-cyan: 0 0 20px rgba(0, 212, 255, 0.5);
-            --glow-green: 0 0 20px rgba(0, 255, 136, 0.5);
+            --accent-amber: #ffaa00;
+            --accent-red: #ff3344;
+            --screen-glow: rgba(0, 212, 255, 0.3);
+            --console-dark: #12121a;
         }
         
         body {
-            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        /* Scanlines overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 212, 255, 0.01) 2px,
-                rgba(0, 212, 255, 0.01) 4px
-            );
-            pointer-events: none;
-            z-index: 1000;
-        }
-        
-        .container { padding: 16px; max-width: 1600px; margin: 0 auto; }
-        
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 20px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: var(--glow-cyan);
-        }
-        
-        h1 {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .logo-subtitle {
-            font-size: 10px;
-            color: var(--text-dim);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-        
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            box-shadow: var(--glow-green);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        /* Main Control Room */
-        .control-room {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-        
-        @media (min-width: 900px) {
-            .control-room {
-                grid-template-columns: 2fr 1fr;
-                grid-template-rows: auto auto;
-            }
-        }
-        
-        /* Screen Panels */
-        .screen-panel {
-            background: var(--bg-screen);
-            border: 1px solid var(--border);
-            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            background: var(--bg-dark);
+            color: #fff;
             overflow: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Mission Control Room */
+        .room {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at 50% 120%, #151525 0%, #080810 50%, #030305 100%);
+            overflow: hidden;
+        }
+        
+        /* Ceiling lights */
+        .ceiling {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(180deg, #0a0a12 0%, #050508 100%);
+        }
+        
+        .ceiling-light {
+            position: absolute;
+            width: 200px;
+            height: 8px;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Main Display Wall */
+        .main-display {
+            position: absolute;
+            top: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            max-width: 900px;
+            height: 40%;
+            background: #000;
+            border: 3px solid #222;
+            border-radius: 8px;
+            box-shadow: 
+                0 0 60px var(--screen-glow),
+                inset 0 0 30px rgba(0, 150, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .display-content {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a1520 0%, #0d1a25 100%);
+            padding: 20px;
             position: relative;
         }
         
-        .screen-panel::before {
-            content: '';
+        /* Orbital visualization */
+        .orbit-viz {
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
         }
         
-        .screen-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: rgba(0, 212, 255, 0.05);
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .screen-title {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--accent-cyan);
-        }
-        
-        .screen-id {
-            font-size: 9px;
-            color: var(--text-dim);
-            letter-spacing: 1px;
-        }
-        
-        .screen-content {
-            padding: 16px;
-            min-height: 200px;
-        }
-        
-        /* Main Display - Bot Grid */
-        .main-display {
-            grid-column: 1 / -1;
-        }
-        
-        .bot-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-        
-        @media (max-width: 600px) {
-            .bot-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        
-        .bot-card {
-            background: rgba(0, 212, 255, 0.03);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 14px;
-            transition: all 0.3s;
-        }
-        
-        .bot-card:hover {
-            border-color: var(--accent-cyan);
-            background: rgba(0, 212, 255, 0.08);
-        }
-        
-        .bot-card.active {
-            border-color: var(--accent-green);
-            box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.1);
-        }
-        
-        .bot-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .bot-avatar {
-            width: 36px;
-            height: 36px;
-            background: var(--bg-secondary);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        
-        .bot-info { flex: 1; }
-        
-        .bot-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .bot-role {
-            font-size: 10px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .bot-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .status-indicator {
-            width: 6px;
-            height: 6px;
+        .orbit-ring {
+            position: absolute;
+            border: 1px solid rgba(0, 212, 255, 0.3);
             border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         
-        .status-indicator.online { background: var(--accent-green); box-shadow: var(--glow-green); }
-        .status-indicator.working { background: var(--accent-orange); animation: pulse 1s infinite; }
-        .status-indicator.idle { background: var(--text-dim); }
+        .orbit-ring:nth-child(1) { width: 100px; height: 100px; }
+        .orbit-ring:nth-child(2) { width: 150px; height: 150px; }
+        .orbit-ring:nth-child(3) { width: 200px; height: 200px; animation: rotate 30s linear infinite; }
         
-        .bot-task {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid var(--border);
-            line-height: 1.4;
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
-        /* Stats Row */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+        .satellite {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-cyan);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: orbit 8s linear infinite;
         }
         
-        @media (max-width: 500px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        @keyframes orbit {
+            from { top: 0; left: 50%; transform: translateX(-50%) rotate(0deg); }
+            to { top: 0; left: 50%; transform: translateX(-50%) rotate(360deg); }
         }
         
-        .stat-box {
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            padding: 14px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-        
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
+        /* Display header */
+        .display-header {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 12px;
             color: var(--accent-cyan);
-            text-shadow: var(--glow-cyan);
-        }
-        
-        .stat-label {
-            font-size: 9px;
-            color: var(--text-dim);
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
         }
         
-        /* Activity Feed */
-        .activity-feed {
-            max-height: 250px;
-            overflow-y: auto;
+        .display-time {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 14px;
+            color: var(--accent-green);
         }
         
-        .activity-item {
+        /* Bot status on main display */
+        .display-bots {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
             display: flex;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 11px;
+            justify-content: space-around;
         }
         
-        .activity-time {
-            color: var(--accent-cyan);
-            font-size: 10px;
-            min-width: 50px;
-        }
-        
-        .activity-text { color: var(--text-secondary); }
-        
-        /* TODO Panel */
-        .todo-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .todo-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: var(--bg-secondary);
-            border-radius: 6px;
-            font-size: 11px;
-            border: 1px solid transparent;
-        }
-        
-        .todo-item:hover { border-color: var(--border); }
-        
-        .todo-item input[type="checkbox"] {
-            accent-color: var(--accent-cyan);
-            width: 16px;
-            height: 16px;
-        }
-        
-        .todo-item label {
-            flex: 1;
-            color: var(--text-secondary);
-            cursor: pointer;
-        }
-        
-        .todo-item input:checked + label {
-            text-decoration: line-through;
-            color: var(--text-dim);
-        }
-        
-        .priority-tag {
-            font-size: 8px;
-            padding: 2px 6px;
-            border-radius: 3px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .priority-high { background: rgba(255, 51, 102, 0.2); color: var(--accent-red); }
-        .priority-med { background: rgba(255, 170, 0, 0.2); color: var(--accent-orange); }
-        .priority-low { background: rgba(0, 255, 136, 0.2); color: var(--accent-green); }
-        
-        /* Capabilities */
-        .capability-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-        
-        .capability-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px;
-            background: var(--bg-secondary);
-            border-radius: 6px;
-            font-size: 11px;
-        }
-        
-        .capability-icon { font-size: 16px; }
-        .capability-name { color: var(--text-primary); font-weight: 600; }
-        
-        /* Animated Grid Background */
-        .grid-bg {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: 
-                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        /* Bot Status Row - Mobile Friendly */
-        .bot-status-row {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            padding: 16px;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            margin-bottom: 16px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .bot-status-row::-webkit-scrollbar { display: none; }
-        
-        .mini-bot {
+        .display-bot {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 4px;
-            min-width: 50px;
         }
         
-        .mini-bot-icon {
+        .display-bot-icon {
             font-size: 24px;
-            animation: bounce 2s ease-in-out infinite;
         }
         
-        .mini-bot:nth-child(1) .mini-bot-icon { animation-delay: 0s; }
-        .mini-bot:nth-child(2) .mini-bot-icon { animation-delay: 0.2s; }
-        .mini-bot:nth-child(3) .mini-bot-icon { animation-delay: 0.4s; }
-        .mini-bot:nth-child(4) .mini-bot-icon { animation-delay: 0.6s; }
-        .mini-bot:nth-child(5) .mini-bot-icon { animation-delay: 0.8s; }
-        .mini-bot:nth-child(6) .mini-bot-icon { animation-delay: 1s; }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-        }
-        
-        .mini-bot-label {
-            font-size: 8px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .mini-bot-status {
-            width: 6px;
-            height: 6px;
+        .display-bot-status {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
+            background: #333;
         }
         
-        .mini-bot-status.online { background: var(--accent-green); box-shadow: var(--glow-green); }
-        .mini-bot-status.working { background: var(--accent-orange); animation: pulse 1s infinite; }
-        .mini-bot-status.idle { background: var(--text-dim); }
+        .display-bot-status.online { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+        .display-bot-status.working { background: var(--accent-amber); box-shadow: 0 0 8px var(--accent-amber); animation: blink 1s infinite; }
+        .display-bot-status.idle { background: #444; }
         
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+        @keyframes blink { 50% { opacity: 0.5; } }
+        
+        /* Console Desk */
+        .console {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1100px;
+            height: 180px;
+            background: linear-gradient(180deg, #1a1a25 0%, #0f0f15 100%);
+            border-radius: 20px 20px 0 0;
+            border: 1px solid #2a2a35;
+            border-bottom: none;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 20px;
+        }
+        
+        .console-surface {
+            width: 95%;
+            height: 20px;
+            background: linear-gradient(180deg, #252530 0%, #1a1a22 100%);
+            border-radius: 10px 10px 0 0;
+            border: 1px solid #333;
+            border-bottom: none;
+        }
+        
+        /* Workstations */
+        .workstations {
+            position: absolute;
+            bottom: 180px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 5%;
+        }
+        
+        .workstation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .monitor {
+            width: 80px;
+            height: 55px;
+            background: #0a0a10;
+            border: 2px solid #2a2a3a;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .monitor-screen {
+            position: absolute;
+            inset: 3px;
+            background: linear-gradient(135deg, #0a1520 0%, #0d2030 100%);
+            border-radius: 2px;
+        }
+        
+        .monitor-glow {
+            position: absolute;
+            inset: 0;
+            box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.2);
+        }
+        
+        .desk {
+            width: 100px;
+            height: 8px;
+            background: linear-gradient(180deg, #252530 0%, #1a1a22 100%);
+            border-radius: 2px;
+        }
+        
+        /* Bot characters */
+        .bot {
+            font-size: 32px;
+            position: absolute;
+            bottom: 200px;
+            animation: sit 2s ease-in-out infinite;
+            z-index: 10;
+        }
+        
+        .bot-1 { left: 8%; }
+        .bot-2 { left: 23%; }
+        .bot-3 { left: 38%; }
+        .bot-4 { right: 38%; }
+        .bot-5 { right: 23%; }
+        .bot-6 { right: 8%; }
+        
+        @keyframes sit {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        /* Status lights on console */
+        .status-lights {
+            position: absolute;
+            bottom: 25px;
+            left: 30px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .status-light {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #333;
+        }
+        
+        .status-light.green { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+        .status-light.cyan { background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan); }
+        .status-light.amber { background: var(--accent-amber); box-shadow: 0 0 8px var(--accent-amber); }
+        
+        /* Room details */
+        .wall-strip {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+        }
+        
+        /* Title */
+        .room-title {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            letter-spacing: 4px;
+            color: rgba(0, 212, 255, 0.6);
+            text-transform: uppercase;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-display { width: 90%; height: 30%; top: 5%; }
+            .workstation { transform: scale(0.7); }
+            .bot { font-size: 24px; bottom: 190px; }
+            .console { height: 140px; }
+            .display-bots { display: none; }
+            .orbit-viz { width: 100px; height: 100px; }
+            .orbit-ring:nth-child(1) { width: 50px; height: 50px; }
+            .orbit-ring:nth-child(2) { width: 75px; height: 75px; }
+            .orbit-ring:nth-child(3) { width: 100px; height: 100px; }
+        }
     </style>
 </head>
 <body>
-    <div class="grid-bg"></div>
-    
-    <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon">🎯</div>
-                <div>
-                    <h1>Mission Control</h1>
-                    <div class="logo-subtitle">AI Operations Center</div>
-                </div>
-            </div>
-            <div class="status">
-                <div class="status-dot"></div>
-                <span>Systems Online</span>
-            </div>
-        </header>
+    <div class="room">
+        <div class="ceiling">
+            <div class="ceiling-light"></div>
+        </div>
         
-        <!-- Mobile Bot Status Row -->
-        <div class="bot-status-row">
-            <div class="mini-bot">
-                <div class="mini-bot-icon">👑</div>
-                <div class="mini-bot-status online"></div>
-                <div class="mini-bot-label">Goober</div>
-            </div>
-            <div class="mini-bot">
-                <div class="mini-bot-icon">💻</div>
-                <div class="mini-bot-status working"></div>
-                <div class="mini-bot-label">Code</div>
-            </div>
-            <div class="mini-bot">
-                <div class="mini-bot-icon">🎨</div>
-                <div class="mini-bot-status idle"></div>
-                <div class="mini-bot-label">Design</div>
-            </div>
-            <div class="mini-bot">
-                <div class="mini-bot-icon">✨</div>
-                <div class="mini-bot-status idle"></div>
-                <div class="mini-bot-label">Front</div>
-            </div>
-            <div class="mini-bot">
-                <div class="mini-bot-icon">🔍</div>
-                <div class="mini-bot-status idle"></div>
-                <div class="mini-bot-label">Research</div>
-            </div>
-            <div class="mini-bot">
-                <div class="mini-bot-icon">✍️</div>
-                <div class="mini-bot-status idle"></div>
-                <div class="mini-bot-label">Writer</div>
+        <div class="wall-strip"></div>
+        
+        <div class="room-title">🎯 Mission Control</div>
+        
+        <!-- Main Display -->
+        <div class="main-display">
+            <div class="display-content">
+                <div class="display-header">AI Operations Center</div>
+                <div class="display-time" id="clock">00:00:00</div>
+                
+                <div class="orbit-viz">
+                    <div class="orbit-ring"></div>
+                    <div class="orbit-ring"></div>
+                    <div class="orbit-ring">
+                        <div class="satellite"></div>
+                    </div>
+                </div>
+                
+                <div class="display-bots">
+                    <div class="display-bot">
+                        <div class="display-bot-icon">👑</div>
+                        <div class="display-bot-status online"></div>
+                    </div>
+                    <div class="display-bot">
+                        <div class="display-bot-icon">💻</div>
+                        <div class="display-bot-status working"></div>
+                    </div>
+                    <div class="display-bot">
+                        <div class="display-bot-icon">🎨</div>
+                        <div class="display-bot-status idle"></div>
+                    </div>
+                    <div class="display-bot">
+                        <div class="display-bot-icon">✨</div>
+                        <div class="display-bot-status idle"></div>
+                    </div>
+                    <div class="display-bot">
+                        <div class="display-bot-icon">🔍</div>
+                        <div class="display-bot-status idle"></div>
+                    </div>
+                    <div class="display-bot">
+                        <div class="display-bot-icon">✍️</div>
+                        <div class="display-bot-status idle"></div>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="control-room">
-            <!-- Main Bot Display -->
-            <div class="screen-panel main-display">
-                <div class="screen-header">
-                    <span class="screen-title">🤖 Bot Squad Status</span>
-                    <span class="screen-id">PRIMARY</span>
-                </div>
-                <div class="screen-content">
-                    <div class="bot-grid">
-                        <div class="bot-card active">
-                            <div class="bot-header">
-                                <div class="bot-avatar">👑</div>
-                                <div class="bot-info">
-                                    <div class="bot-name">Goober</div>
-                                    <div class="bot-role">Command</div>
-                                </div>
-                                <div class="bot-status">
-                                    <div class="status-indicator online"></div>
-                                    <span>Online</span>
-                                </div>
-                            </div>
-                            <div class="bot-task">Coordinating operations</div>
-                        </div>
-                        
-                        <div class="bot-card active">
-                            <div class="bot-header">
-                                <div class="bot-avatar">💻</div>
-                                <div class="bot-info">
-                                    <div class="bot-name">Code Bot</div>
-                                    <div class="bot-role">Development</div>
-                                </div>
-                                <div class="bot-status">
-                                    <div class="status-indicator working"></div>
-                                    <span>Active</span>
-                                </div>
-                            </div>
-                            <div class="bot-task">HelpUscape redesign</div>
-                        </div>
-                        
-                        <div class="bot-card">
-                            <div class="bot-header">
-                                <div class="bot-avatar">🎨</div>
-                                <div class="bot-info">
-                                    <div class="bot-name">Design Bot</div>
-                                    <div class="bot-role">UI/UX</div>
-                                </div>
-                                <div class="bot-status">
-                                    <div class="status-indicator idle"></div>
-                                    <span>Ready</span>
-                                </div>
-                            </div>
-                            <div class="bot-task">Awaiting task</div>
-                        </div>
-                        
-                        <div class="bot-card">
-                            <div class="bot-header">
-                                <div class="bot-avatar">✨</div>
-                                <div class="bot-info">
-                                    <div class="bot-name">Frontend</div>
-                                    <div class="bot-role">Animations</div>
-                                </div>
-                                <div class="bot-status">
-                                    <div class="status-indicator idle"></div>
-                                    <span>Ready</span>
-                                </div>
-                            </div>
-                            <div class="bot-task">Awaiting task</div>
-                        </div>
-                        
-                        <div class="bot-card">
-                            <div class="bot-header">
-                                <div class="bot-avatar">🔍</div>
-                                <div class="bot-info">
-                                    <div class="bot-name">Research</div>
-                                    <div class="bot-role">Analysis</div>
-                                </div>
-                                <div class="bot-status">
-                                    <div class="status-indicator idle"></div>
-                                    <span>Ready</span>
-                                </div>
-                            </div>
-                            <div class="bot-task">Awaiting task</div>
-                        </div>
-                        
-                        <div class="bot-card">
-                            <div class="bot-header">
-                                <div class="bot-avatar">✍️</div>
-                                <div class="bot-info">
-                                    <div class="bot-name">Writer</div>
-                                    <div class="bot-role">Content</div>
-                                </div>
-                                <div class="bot-status">
-                                    <div class="status-indicator idle"></div>
-                                    <span>Ready</span>
-                                </div>
-                            </div>
-                            <div class="bot-task">Awaiting task</div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Bots at desks -->
+        <div class="bot bot-1">👑</div>
+        <div class="bot bot-2">💻</div>
+        <div class="bot bot-3">🎨</div>
+        <div class="bot bot-4">✨</div>
+        <div class="bot bot-5">🔍</div>
+        <div class="bot bot-6">✍️</div>
+        
+        <!-- Workstations -->
+        <div class="workstations">
+            <div class="workstation">
+                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
+                <div class="desk"></div>
             </div>
-            
-            <!-- Stats -->
-            <div class="screen-panel">
-                <div class="screen-header">
-                    <span class="screen-title">📊 Overview</span>
-                    <span class="screen-id">ALPHA</span>
-                </div>
-                <div class="screen-content">
-                    <div class="stats-grid">
-                        <div class="stat-box">
-                            <div class="stat-value">6</div>
-                            <div class="stat-label">Bots</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value">0</div>
-                            <div class="stat-label">Pending</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value">4</div>
-                            <div class="stat-label">Done</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value">2</div>
-                            <div class="stat-label">Active</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="workstation">
+                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
+                <div class="desk"></div>
             </div>
-            
-            <!-- Activity -->
-            <div class="screen-panel">
-                <div class="screen-header">
-                    <span class="screen-title">📜 Activity Log</span>
-                    <span class="screen-id">BETA</span>
-                </div>
-                <div class="screen-content">
-                    <div class="activity-feed">
-                        <div class="activity-item">
-                            <span class="activity-time">18:45</span>
-                            <span class="activity-text">Notion workspace initialized</span>
-                        </div>
-                        <div class="activity-item">
-                            <span class="activity-time">18:30</span>
-                            <span class="activity-text">Claude API configured</span>
-                        </div>
-                        <div class="activity-item">
-                            <span class="activity-time">18:15</span>
-                            <span class="activity-text">OpenAI API configured</span>
-                        </div>
-                        <div class="activity-item">
-                            <span class="activity-time">10:30</span>
-                            <span class="activity-text">Lake Salt brand created</span>
-                        </div>
-                        <div class="activity-item">
-                            <span class="activity-time">10:15</span>
-                            <span class="activity-text">Hero redesign complete</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="workstation">
+                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
+                <div class="desk"></div>
             </div>
-            
-            <!-- TODO -->
-            <div class="screen-panel">
-                <div class="screen-header">
-                    <span class="screen-title">📋 Mission Tasks</span>
-                    <span class="screen-id">GAMMA</span>
-                </div>
-                <div class="screen-content">
-                    <div class="todo-list">
-                        <div class="todo-item">
-                            <input type="checkbox" id="t1" checked>
-                            <label for="t1">Set up Goober + Telegram</label>
-                            <span class="priority-tag priority-high">Done</span>
-                        </div>
-                        <div class="todo-item">
-                            <input type="checkbox" id="t2" checked>
-                            <label for="t2">Create Mission Control</label>
-                            <span class="priority-tag priority-high">Done</span>
-                        </div>
-                        <div class="todo-item">
-                            <input type="checkbox" id="t3" checked>
-                            <label for="t3">Fix HelpUscape form</label>
-                            <span class="priority-tag priority-high">Done</span>
-                        </div>
-                        <div class="todo-item">
-                            <input type="checkbox" id="t4" checked>
-                            <label for="t4">Set up Notion</label>
-                            <span class="priority-tag priority-high">Done</span>
-                        </div>
-                        <div class="todo-item">
-                            <input type="checkbox" id="t5">
-                            <label for="t5">Firebase setup</label>
-                            <span class="priority-tag priority-high">High</span>
-                        </div>
-                        <div class="todo-item">
-                            <input type="checkbox" id="t6">
-                            <label for="t6">Vercel deployment</label>
-                            <span class="priority-tag priority-high">High</span>
-                        </div>
-                        <div class="todo-item">
-                            <input type="checkbox" id="t7">
-                            <label for="t7">Farmers Market app</label>
-                            <span class="priority-tag priority-med">Med</span>
-                        </div>
-                        <div class="todo-item">
-                            <input type="checkbox" id="t8">
-                            <label for="t8">Wedding expo prep</label>
-                            <span class="priority-tag priority-med">Med</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="workstation">
+                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
+                <div class="desk"></div>
             </div>
-            
-            <!-- Capabilities -->
-            <div class="screen-panel">
-                <div class="screen-header">
-                    <span class="screen-title">⚡ Capabilities</span>
-                    <span class="screen-id">DELTA</span>
-                </div>
-                <div class="screen-content">
-                    <div class="capability-grid">
-                        <div class="capability-item">
-                            <span class="capability-icon">💻</span>
-                            <span class="capability-name">Code</span>
-                        </div>
-                        <div class="capability-item">
-                            <span class="capability-icon">🎨</span>
-                            <span class="capability-name">Design</span>
-                        </div>
-                        <div class="capability-item">
-                            <span class="capability-icon">🔍</span>
-                            <span class="capability-name">Research</span>
-                        </div>
-                        <div class="capability-item">
-                            <span class="capability-icon">✍️</span>
-                            <span class="capability-name">Content</span>
-                        </div>
-                        <div class="capability-item">
-                            <span class="capability-icon">🔥</span>
-                            <span class="capability-name">Firebase</span>
-                        </div>
-                        <div class="capability-item">
-                            <span class="capability-icon">📊</span>
-                            <span class="capability-name">Strategy</span>
-                        </div>
-                        <div class="capability-item">
-                            <span class="capability-icon">🎨</span>
-                            <span class="capability-name">Canva</span>
-                        </div>
-                        <div class="capability-item">
-                            <span class="capability-icon">📐</span>
-                            <span class="capability-name">Figma</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="workstation">
+                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
+                <div class="desk"></div>
             </div>
+            <div class="workstation">
+                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
+                <div class="desk"></div>
+            </div>
+        </div>
+        
+        <!-- Console Desk -->
+        <div class="console">
+            <div class="status-lights">
+                <div class="status-light green"></div>
+                <div class="status-light cyan"></div>
+                <div class="status-light amber"></div>
+            </div>
+            <div class="console-surface"></div>
         </div>
     </div>
+    
+    <script>
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            const time = now.toTimeString().split(' ')[0];
+            document.getElementById('clock').textContent = time;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
