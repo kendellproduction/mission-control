@@ -300,6 +300,7 @@
             <button class="filter-btn active" onclick="filterTasks('all')">All</button>
             <button class="filter-btn" onclick="filterTasks('helpuscape')">HelpUscape</button>
             <button class="filter-btn" onclick="filterTasks('lake-salt')">Lake Salt</button>
+            <button class="filter-btn" onclick="filterTasks('admin')">Admin/Legal</button>
             <button class="filter-btn" onclick="filterTasks('setup')">Setup</button>
             <button class="filter-btn" onclick="filterTasks('done')">Done</button>
         </div>
@@ -327,6 +328,7 @@
                 <option value="setup">Setup</option>
                 <option value="helpuscape">HelpUscape</option>
                 <option value="lake-salt">Lake Salt</option>
+                <option value="admin">Admin/Legal</option>
                 <option value="other">Other</option>
             </select>
             <button onclick="addTask()">+</button>
@@ -392,6 +394,13 @@
             { id: 6, title: "Set up Vercel deployment", project: "setup", priority: "high", done: false },
             { id: 7, title: "Apply to SLC Farmers Market", project: "lake-salt", priority: "medium", done: false },
             { id: 8, title: "Wedding expo materials (May 9)", project: "lake-salt", priority: "medium", done: false },
+            { id: 9, title: "Get Firebase access from Kendell", project: "setup", priority: "high", done: false },
+            { id: 10, title: "Connect custom Squarespace URL for HelpUscape", project: "helpuscape", priority: "high", done: false },
+            { id: 11, title: "Create Utah state business account (kendellproduction@gmail.com)", project: "admin", priority: "high", done: false },
+            { id: 12, title: "Find/retrieve Lake Salt LLC account", project: "admin", priority: "high", done: false },
+            { id: 13, title: "Register Lake Salt LLC under Utah account", project: "lake-salt", priority: "high", done: false },
+            { id: 14, title: "Update LLC address to Saratoga Springs", project: "lake-salt", priority: "high", done: false },
+            { id: 15, title: "Get Saratoga Springs business license", project: "lake-salt", priority: "high", done: false },
         ];
         
         let currentFilter = 'all';
@@ -443,6 +452,7 @@
                 'helpuscape': 'HelpUscape',
                 'lake-salt': 'Lake Salt',
                 'setup': 'Setup',
+                'admin': 'Admin/Legal',
                 'other': 'Other'
             };
             
