@@ -300,8 +300,9 @@
             <button class="filter-btn active" onclick="filterTasks('all')">All</button>
             <button class="filter-btn" onclick="filterTasks('helpuscape')">HelpUscape</button>
             <button class="filter-btn" onclick="filterTasks('lake-salt')">Lake Salt</button>
-            <button class="filter-btn" onclick="filterTasks('admin')">Admin/Legal</button>
-            <button class="filter-btn" onclick="filterTasks('setup')">Setup</button>
+            <button class="filter-btn" onclick="filterTasks('portfolio')">Portfolio</button>
+            <button class="filter-btn" onclick="filterTasks('heyfam')">HeyFam</button>
+            <button class="filter-btn" onclick="filterTasks('admin')">Admin</button>
             <button class="filter-btn" onclick="filterTasks('done')">Done</button>
         </div>
         
@@ -325,10 +326,12 @@
         <div class="add-task">
             <input type="text" id="newTaskInput" placeholder="New task...">
             <select id="newTaskProject">
-                <option value="setup">Setup</option>
                 <option value="helpuscape">HelpUscape</option>
                 <option value="lake-salt">Lake Salt</option>
-                <option value="admin">Admin/Legal</option>
+                <option value="portfolio">Portfolio</option>
+                <option value="heyfam">HeyFam</option>
+                <option value="admin">Admin</option>
+                <option value="setup">Setup</option>
                 <option value="other">Other</option>
             </select>
             <button onclick="addTask()">+</button>
@@ -390,17 +393,22 @@
             { id: 2, title: "Create Mission Control", project: "setup", priority: "high", done: true },
             { id: 3, title: "Fix HelpUscape contact form", project: "helpuscape", priority: "high", done: true },
             { id: 4, title: "Set up Notion workspace", project: "setup", priority: "high", done: true },
-            { id: 5, title: "Set up Firebase for HelpUscape", project: "helpuscape", priority: "high", done: false },
-            { id: 6, title: "Set up Vercel deployment", project: "setup", priority: "high", done: false },
-            { id: 7, title: "Apply to SLC Farmers Market", project: "lake-salt", priority: "medium", done: false },
-            { id: 8, title: "Wedding expo materials (May 9)", project: "lake-salt", priority: "medium", done: false },
-            { id: 9, title: "Get Firebase access from Kendell", project: "setup", priority: "high", done: false },
-            { id: 10, title: "Connect custom Squarespace URL for HelpUscape", project: "helpuscape", priority: "high", done: false },
-            { id: 11, title: "Create Utah state business account (kendellproduction@gmail.com)", project: "admin", priority: "high", done: false },
-            { id: 12, title: "Find/retrieve Lake Salt LLC account", project: "admin", priority: "high", done: false },
-            { id: 13, title: "Register Lake Salt LLC under Utah account", project: "lake-salt", priority: "high", done: false },
-            { id: 14, title: "Update LLC address to Saratoga Springs", project: "lake-salt", priority: "high", done: false },
-            { id: 15, title: "Get Saratoga Springs business license", project: "lake-salt", priority: "high", done: false },
+            { id: 5, title: "HelpUscape presentation this week", project: "helpuscape", priority: "high", done: false },
+            { id: 6, title: "HelpUscape: Design review & polish", project: "helpuscape", priority: "high", done: false },
+            { id: 7, title: "HelpUscape: Connect custom domain", project: "helpuscape", priority: "high", done: false },
+            { id: 8, title: "Set up Firebase for HelpUscape", project: "helpuscape", priority: "high", done: false },
+            { id: 9, title: "Set up Vercel deployment", project: "setup", priority: "high", done: false },
+            { id: 10, title: "Apply to SLC Farmers Market", project: "lake-salt", priority: "medium", done: false },
+            { id: 11, title: "Wedding expo materials (May 9)", project: "lake-salt", priority: "medium", done: false },
+            { id: 12, title: "Build Lake Salt website (like HelpUscape)", project: "lake-salt", priority: "high", done: false },
+            { id: 13, title: "Create portfolio site", project: "portfolio", priority: "medium", done: false },
+            { id: 14, title: "HeyFam: Review existing codebase", project: "heyfam", priority: "medium", done: false },
+            { id: 15, title: "HeyFam: Update iOS app plan", project: "heyfam", priority: "high", done: false },
+            { id: 16, title: "HeyFam: Build iOS app", project: "heyfam", priority: "high", done: false },
+            { id: 17, title: "Get Firebase access from Kendell", project: "setup", priority: "high", done: false },
+            { id: 18, title: "Connect custom Squarespace URL for HelpUscape", project: "helpuscape", priority: "high", done: false },
+            { id: 19, title: "Create Utah state business account", project: "admin", priority: "high", done: false },
+            { id: 20, title: "Find Lake Salt LLC account", project: "admin", priority: "high", done: false },
         ];
         
         let currentFilter = 'all';
@@ -451,8 +459,10 @@
             const projectNames = {
                 'helpuscape': 'HelpUscape',
                 'lake-salt': 'Lake Salt',
+                'portfolio': 'Portfolio',
+                'heyfam': 'HeyFam',
                 'setup': 'Setup',
-                'admin': 'Admin/Legal',
+                'admin': 'Admin',
                 'other': 'Other'
             };
             
