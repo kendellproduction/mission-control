@@ -408,6 +408,63 @@
             z-index: -1;
         }
         
+        /* Bot Status Row - Mobile Friendly */
+        .bot-status-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .bot-status-row::-webkit-scrollbar { display: none; }
+        
+        .mini-bot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            min-width: 50px;
+        }
+        
+        .mini-bot-icon {
+            font-size: 24px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        .mini-bot:nth-child(1) .mini-bot-icon { animation-delay: 0s; }
+        .mini-bot:nth-child(2) .mini-bot-icon { animation-delay: 0.2s; }
+        .mini-bot:nth-child(3) .mini-bot-icon { animation-delay: 0.4s; }
+        .mini-bot:nth-child(4) .mini-bot-icon { animation-delay: 0.6s; }
+        .mini-bot:nth-child(5) .mini-bot-icon { animation-delay: 0.8s; }
+        .mini-bot:nth-child(6) .mini-bot-icon { animation-delay: 1s; }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        
+        .mini-bot-label {
+            font-size: 8px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .mini-bot-status {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        
+        .mini-bot-status.online { background: var(--accent-green); box-shadow: var(--glow-green); }
+        .mini-bot-status.working { background: var(--accent-orange); animation: pulse 1s infinite; }
+        .mini-bot-status.idle { background: var(--text-dim); }
+        
         /* Scrollbar */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg-secondary); }
@@ -431,6 +488,40 @@
                 <span>Systems Online</span>
             </div>
         </header>
+        
+        <!-- Mobile Bot Status Row -->
+        <div class="bot-status-row">
+            <div class="mini-bot">
+                <div class="mini-bot-icon">👑</div>
+                <div class="mini-bot-status online"></div>
+                <div class="mini-bot-label">Goober</div>
+            </div>
+            <div class="mini-bot">
+                <div class="mini-bot-icon">💻</div>
+                <div class="mini-bot-status working"></div>
+                <div class="mini-bot-label">Code</div>
+            </div>
+            <div class="mini-bot">
+                <div class="mini-bot-icon">🎨</div>
+                <div class="mini-bot-status idle"></div>
+                <div class="mini-bot-label">Design</div>
+            </div>
+            <div class="mini-bot">
+                <div class="mini-bot-icon">✨</div>
+                <div class="mini-bot-status idle"></div>
+                <div class="mini-bot-label">Front</div>
+            </div>
+            <div class="mini-bot">
+                <div class="mini-bot-icon">🔍</div>
+                <div class="mini-bot-status idle"></div>
+                <div class="mini-bot-label">Research</div>
+            </div>
+            <div class="mini-bot">
+                <div class="mini-bot-icon">✍️</div>
+                <div class="mini-bot-status idle"></div>
+                <div class="mini-bot-label">Writer</div>
+            </div>
+        </div>
         
         <div class="control-room">
             <!-- Main Bot Display -->
