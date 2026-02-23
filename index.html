@@ -2,93 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mission Control</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
-            --bg-dark: #050508;
-            --bg-room: #0a0a12;
-            --accent-cyan: #00d4ff;
-            --accent-green: #00ff88;
-            --accent-amber: #ffaa00;
-            --accent-red: #ff3344;
-            --screen-glow: rgba(0, 212, 255, 0.3);
-            --console-dark: #12121a;
+            --cyan: #00d4ff;
+            --green: #00ff88;
+            --amber: #ffaa00;
+            --dark: #050510;
+            --panel: #0a0a18;
         }
         
         body {
-            font-family: 'Courier New', monospace;
-            background: var(--bg-dark);
+            font-family: monospace;
+            background: var(--dark);
             color: #fff;
-            overflow: hidden;
             min-height: 100vh;
+            padding: 16px;
         }
         
-        /* Mission Control Room */
-        .room {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            background: radial-gradient(ellipse at 50% 120%, #151525 0%, #080810 50%, #030305 100%);
-            overflow: hidden;
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #222;
+            margin-bottom: 20px;
         }
         
-        /* Ceiling lights */
-        .ceiling {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(180deg, #0a0a12 0%, #050508 100%);
+        .header h1 {
+            font-size: 24px;
+            color: var(--cyan);
+            letter-spacing: 4px;
+            text-transform: uppercase;
         }
         
-        .ceiling-light {
-            position: absolute;
-            width: 200px;
-            height: 8px;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
+        .header .status {
+            font-size: 12px;
+            color: var(--green);
+            margin-top: 8px;
         }
         
-        /* Main Display Wall */
-        .main-display {
-            position: absolute;
-            top: 8%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70%;
-            max-width: 900px;
-            height: 40%;
+        /* Main Display */
+        .display {
             background: #000;
-            border: 3px solid #222;
+            border: 2px solid #333;
             border-radius: 8px;
-            box-shadow: 
-                0 0 60px var(--screen-glow),
-                inset 0 0 30px rgba(0, 150, 255, 0.1);
-            overflow: hidden;
+            padding: 16px;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .display-content {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0a1520 0%, #0d1a25 100%);
-            padding: 20px;
+        .display-title {
+            font-size: 12px;
+            color: var(--cyan);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        
+        /* Orbital */
+        .orbit-container {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
             position: relative;
-        }
-        
-        /* Orbital visualization */
-        .orbit-viz {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
         }
         
         .orbit-ring {
@@ -100,345 +80,347 @@
             transform: translate(-50%, -50%);
         }
         
-        .orbit-ring:nth-child(1) { width: 100px; height: 100px; }
-        .orbit-ring:nth-child(2) { width: 150px; height: 150px; }
-        .orbit-ring:nth-child(3) { width: 200px; height: 200px; animation: rotate 30s linear infinite; }
+        .ring-1 { width: 80px; height: 80px; }
+        .ring-2 { width: 120px; height: 120px; }
+        .ring-3 { width: 150px; height: 150px; animation: spin 20s linear infinite; }
         
-        @keyframes rotate {
+        @keyframes spin {
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
         .satellite {
             position: absolute;
-            width: 12px;
-            height: 12px;
-            background: var(--accent-cyan);
+            width: 10px;
+            height: 10px;
+            background: var(--cyan);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-cyan);
+            box-shadow: 0 0 10px var(--cyan);
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            animation: orbit 8s linear infinite;
+            animation: orbit 6s linear infinite;
         }
         
         @keyframes orbit {
-            from { top: 0; left: 50%; transform: translateX(-50%) rotate(0deg); }
-            to { top: 0; left: 50%; transform: translateX(-50%) rotate(360deg); }
+            from { top: 0; transform: translateX(-50%) rotate(0deg); }
+            to { top: 0; transform: translateX(-50%) rotate(360deg); }
         }
         
-        /* Display header */
-        .display-header {
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            font-size: 12px;
-            color: var(--accent-cyan);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        
-        .display-time {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 14px;
-            color: var(--accent-green);
-        }
-        
-        /* Bot status on main display */
-        .display-bots {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
+        /* Bot Row */
+        .bot-row {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 16px;
         }
         
-        .display-bot {
+        .bot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .bot-icon {
+            font-size: 28px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        .bot:nth-child(1) .bot-icon { animation-delay: 0s; }
+        .bot:nth-child(2) .bot-icon { animation-delay: 0.2s; }
+        .bot:nth-child(3) .bot-icon { animation-delay: 0.4s; }
+        .bot:nth-child(4) .bot-icon { animation-delay: 0.6s; }
+        .bot:nth-child(5) .bot-icon { animation-delay: 0.8s; }
+        .bot:nth-child(6) .bot-icon { animation-delay: 1s; }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .bot-name {
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .bot-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .bot-dot.online { background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .bot-dot.working { background: var(--amber); animation: blink 1s infinite; }
+        .bot-dot.idle { background: #444; }
+        
+        @keyframes blink { 50% { opacity: 0.5; } }
+        
+        /* Workstations */
+        .stations {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .station {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 4px;
         }
         
-        .display-bot-icon {
-            font-size: 24px;
-        }
-        
-        .display-bot-status {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #333;
-        }
-        
-        .display-bot-status.online { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
-        .display-bot-status.working { background: var(--accent-amber); box-shadow: 0 0 8px var(--accent-amber); animation: blink 1s infinite; }
-        .display-bot-status.idle { background: #444; }
-        
-        @keyframes blink { 50% { opacity: 0.5; } }
-        
-        /* Console Desk */
-        .console {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1100px;
-            height: 180px;
-            background: linear-gradient(180deg, #1a1a25 0%, #0f0f15 100%);
-            border-radius: 20px 20px 0 0;
-            border: 1px solid #2a2a35;
-            border-bottom: none;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 20px;
-        }
-        
-        .console-surface {
-            width: 95%;
-            height: 20px;
-            background: linear-gradient(180deg, #252530 0%, #1a1a22 100%);
-            border-radius: 10px 10px 0 0;
-            border: 1px solid #333;
-            border-bottom: none;
-        }
-        
-        /* Workstations */
-        .workstations {
-            position: absolute;
-            bottom: 180px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-around;
-            padding: 0 5%;
-        }
-        
-        .workstation {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-        
         .monitor {
-            width: 80px;
-            height: 55px;
-            background: #0a0a10;
-            border: 2px solid #2a2a3a;
+            width: 60px;
+            height: 45px;
+            background: #0a0a15;
+            border: 2px solid #333;
             border-radius: 4px;
             position: relative;
-            overflow: hidden;
         }
         
-        .monitor-screen {
+        .screen {
             position: absolute;
             inset: 3px;
-            background: linear-gradient(135deg, #0a1520 0%, #0d2030 100%);
+            background: linear-gradient(135deg, #0a1520, #0d2030);
             border-radius: 2px;
-        }
-        
-        .monitor-glow {
-            position: absolute;
-            inset: 0;
-            box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.2);
         }
         
         .desk {
-            width: 100px;
-            height: 8px;
-            background: linear-gradient(180deg, #252530 0%, #1a1a22 100%);
+            width: 70px;
+            height: 6px;
+            background: #252530;
             border-radius: 2px;
         }
         
-        /* Bot characters */
-        .bot {
-            font-size: 32px;
-            position: absolute;
-            bottom: 200px;
-            animation: sit 2s ease-in-out infinite;
-            z-index: 10;
+        /* Console */
+        .console {
+            background: linear-gradient(180deg, #1a1a28, #0f0f18);
+            border-radius: 12px 12px 0 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
         }
         
-        .bot-1 { left: 8%; }
-        .bot-2 { left: 23%; }
-        .bot-3 { left: 38%; }
-        .bot-4 { right: 38%; }
-        .bot-5 { right: 23%; }
-        .bot-6 { right: 8%; }
-        
-        @keyframes sit {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
+        .console-title {
+            font-size: 11px;
+            color: var(--cyan);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
         }
         
-        /* Status lights on console */
-        .status-lights {
-            position: absolute;
-            bottom: 25px;
-            left: 30px;
+        .lights {
             display: flex;
-            gap: 10px;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
         }
         
-        .status-light {
-            width: 10px;
-            height: 10px;
+        .light {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background: #333;
         }
         
-        .status-light.green { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
-        .status-light.cyan { background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan); }
-        .status-light.amber { background: var(--accent-amber); box-shadow: 0 0 8px var(--accent-amber); }
+        .light.green { background: var(--green); box-shadow: 0 0 10px var(--green); }
+        .light.cyan { background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+        .light.amber { background: var(--amber); box-shadow: 0 0 10px var(--amber); }
         
-        /* Room details */
-        .wall-strip {
-            position: absolute;
-            top: 70px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
-        }
-        
-        /* Title */
-        .room-title {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+        /* Clock */
+        .clock {
             font-size: 14px;
-            letter-spacing: 4px;
-            color: rgba(0, 212, 255, 0.6);
-            text-transform: uppercase;
+            color: var(--green);
+            font-family: monospace;
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-display { width: 90%; height: 30%; top: 5%; }
-            .workstation { transform: scale(0.7); }
-            .bot { font-size: 24px; bottom: 190px; }
-            .console { height: 140px; }
-            .display-bots { display: none; }
-            .orbit-viz { width: 100px; height: 100px; }
-            .orbit-ring:nth-child(1) { width: 50px; height: 50px; }
-            .orbit-ring:nth-child(2) { width: 75px; height: 75px; }
-            .orbit-ring:nth-child(3) { width: 100px; height: 100px; }
+        /* Info Panels */
+        .panels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .panel {
+            background: var(--panel);
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        
+        .panel-title {
+            font-size: 11px;
+            color: var(--cyan);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #1a1a25;
+            font-size: 12px;
+        }
+        
+        .stat-value {
+            color: var(--green);
+        }
+        
+        /* Tasks */
+        .task {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .task input {
+            accent-color: var(--cyan);
+        }
+        
+        .task.done {
+            text-decoration: line-through;
+            color: #444;
         }
     </style>
 </head>
 <body>
-    <div class="room">
-        <div class="ceiling">
-            <div class="ceiling-light"></div>
-        </div>
+    <div class="header">
+        <h1>🎯 Mission Control</h1>
+        <div class="status">● SYSTEMS ONLINE</div>
+    </div>
+    
+    <!-- Main Display -->
+    <div class="display">
+        <div class="display-title">▸ AI OPERATIONS CENTER</div>
         
-        <div class="wall-strip"></div>
-        
-        <div class="room-title">🎯 Mission Control</div>
-        
-        <!-- Main Display -->
-        <div class="main-display">
-            <div class="display-content">
-                <div class="display-header">AI Operations Center</div>
-                <div class="display-time" id="clock">00:00:00</div>
-                
-                <div class="orbit-viz">
-                    <div class="orbit-ring"></div>
-                    <div class="orbit-ring"></div>
-                    <div class="orbit-ring">
-                        <div class="satellite"></div>
-                    </div>
-                </div>
-                
-                <div class="display-bots">
-                    <div class="display-bot">
-                        <div class="display-bot-icon">👑</div>
-                        <div class="display-bot-status online"></div>
-                    </div>
-                    <div class="display-bot">
-                        <div class="display-bot-icon">💻</div>
-                        <div class="display-bot-status working"></div>
-                    </div>
-                    <div class="display-bot">
-                        <div class="display-bot-icon">🎨</div>
-                        <div class="display-bot-status idle"></div>
-                    </div>
-                    <div class="display-bot">
-                        <div class="display-bot-icon">✨</div>
-                        <div class="display-bot-status idle"></div>
-                    </div>
-                    <div class="display-bot">
-                        <div class="display-bot-icon">🔍</div>
-                        <div class="display-bot-status idle"></div>
-                    </div>
-                    <div class="display-bot">
-                        <div class="display-bot-icon">✍️</div>
-                        <div class="display-bot-status idle"></div>
-                    </div>
-                </div>
+        <div class="orbit-container">
+            <div class="orbit-ring ring-1"></div>
+            <div class="orbit-ring ring-2"></div>
+            <div class="orbit-ring ring-3">
+                <div class="satellite"></div>
             </div>
         </div>
         
-        <!-- Bots at desks -->
-        <div class="bot bot-1">👑</div>
-        <div class="bot bot-2">💻</div>
-        <div class="bot bot-3">🎨</div>
-        <div class="bot bot-4">✨</div>
-        <div class="bot bot-5">🔍</div>
-        <div class="bot bot-6">✍️</div>
+        <div class="clock" id="clock">00:00:00</div>
         
-        <!-- Workstations -->
-        <div class="workstations">
-            <div class="workstation">
-                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
-                <div class="desk"></div>
+        <div class="bot-row">
+            <div class="bot">
+                <div class="bot-icon">👑</div>
+                <div class="bot-dot online"></div>
+                <div class="bot-name">Goober</div>
             </div>
-            <div class="workstation">
-                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
-                <div class="desk"></div>
+            <div class="bot">
+                <div class="bot-icon">💻</div>
+                <div class="bot-dot working"></div>
+                <div class="bot-name">Code</div>
             </div>
-            <div class="workstation">
-                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
-                <div class="desk"></div>
+            <div class="bot">
+                <div class="bot-icon">🎨</div>
+                <div class="bot-dot idle"></div>
+                <div class="bot-name">Design</div>
             </div>
-            <div class="workstation">
-                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
-                <div class="desk"></div>
+            <div class="bot">
+                <div class="bot-icon">✨</div>
+                <div class="bot-dot idle"></div>
+                <div class="bot-name">Front</div>
             </div>
-            <div class="workstation">
-                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
-                <div class="desk"></div>
+            <div class="bot">
+                <div class="bot-icon">🔍</div>
+                <div class="bot-dot idle"></div>
+                <div class="bot-name">Research</div>
             </div>
-            <div class="workstation">
-                <div class="monitor"><div class="monitor-screen"><div class="monitor-glow"></div></div></div>
-                <div class="desk"></div>
+            <div class="bot">
+                <div class="bot-icon">✍️</div>
+                <div class="bot-dot idle"></div>
+                <div class="bot-name">Writer</div>
             </div>
         </div>
+    </div>
+    
+    <!-- Workstations -->
+    <div class="stations">
+        <div class="station">
+            <div class="monitor"><div class="screen"></div></div>
+            <div class="desk"></div>
+        </div>
+        <div class="station">
+            <div class="monitor"><div class="screen"></div></div>
+            <div class="desk"></div>
+        </div>
+        <div class="station">
+            <div class="monitor"><div class="screen"></div></div>
+            <div class="desk"></div>
+        </div>
+        <div class="station">
+            <div class="monitor"><div class="screen"></div></div>
+            <div class="desk"></div>
+        </div>
+        <div class="station">
+            <div class="monitor"><div class="screen"></div></div>
+            <div class="desk"></div>
+        </div>
+        <div class="station">
+            <div class="monitor"><div class="screen"></div></div>
+            <div class="desk"></div>
+        </div>
+    </div>
+    
+    <!-- Console -->
+    <div class="console">
+        <div class="console-title">▸ CONTROL CONSOLE</div>
+        <div class="lights">
+            <div class="light green"></div>
+            <div class="light cyan"></div>
+            <div class="light amber"></div>
+        </div>
+        <div class="clock" id="clock2">00:00:00</div>
+    </div>
+    
+    <!-- Info Panels -->
+    <div class="panels">
+        <div class="panel">
+            <div class="panel-title">▸ STATUS</div>
+            <div class="stat"><span>Bots</span><span class="stat-value">6</span></div>
+            <div class="stat"><span>Active</span><span class="stat-value">2</span></div>
+            <div class="stat"><span>Idle</span><span class="stat-value">4</span></div>
+        </div>
         
-        <!-- Console Desk -->
-        <div class="console">
-            <div class="status-lights">
-                <div class="status-light green"></div>
-                <div class="status-light cyan"></div>
-                <div class="status-light amber"></div>
-            </div>
-            <div class="console-surface"></div>
+        <div class="panel">
+            <div class="panel-title">▸ TASKS</div>
+            <div class="task done"><input type="checkbox" checked> Telegram setup</div>
+            <div class="task done"><input type="checkbox" checked> Mission Control</div>
+            <div class="task done"><input type="checkbox" checked> HelpUscape form</div>
+            <div class="task done"><input type="checkbox" checked> Notion workspace</div>
+            <div class="task"><input type="checkbox"> Firebase setup</div>
+            <div class="task"><input type="checkbox"> Vercel deploy</div>
+        </div>
+        
+        <div class="panel">
+            <div class="panel-title">▸ CAPABILITIES</div>
+            <div class="stat"><span>💻</span><span class="stat-value">Code</span></div>
+            <div class="stat"><span>🎨</span><span class="stat-value">Design</span></div>
+            <div class="stat"><span>🔍</span><span class="stat-value">Research</span></div>
+            <div class="stat"><span>✍️</span><span class="stat-value">Content</span></div>
         </div>
     </div>
     
     <script>
-        // Update clock
         function updateClock() {
             const now = new Date();
             const time = now.toTimeString().split(' ')[0];
             document.getElementById('clock').textContent = time;
+            document.getElementById('clock2').textContent = time;
         }
         setInterval(updateClock, 1000);
         updateClock();
