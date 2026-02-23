@@ -475,162 +475,146 @@
         
         /* Office Animation */
         .office-scene {
-            background: linear-gradient(180deg, #1a1a2e 0%, #12121a 100%);
-            border-radius: 16px;
-            padding: 20px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+            border-radius: 20px;
+            padding: 30px;
             margin-bottom: 20px;
             position: relative;
             overflow: hidden;
-            min-height: 180px;
-        }
-        
-        .office-floor {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(180deg, #2a2a3e 0%, #1e1e2e 100%);
-            border-radius: 0 0 16px 16px;
-        }
-        
-        .desk {
-            position: absolute;
-            bottom: 40px;
+            min-height: 400px;
             display: flex;
-            gap: 20px;
+            align-items: center;
             justify-content: center;
-            left: 0;
-            right: 0;
         }
         
-        .workstation {
+        .office-room {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 350px;
+        }
+        
+        .round-table {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(145deg, #3a3a5a, #2a2a4a);
+            border-radius: 50%;
+            border: 4px solid #4a4a6a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+        
+        .manager-bot {
+            font-size: 36px;
+            z-index: 11;
+        }
+        
+        .seated-bot {
+            position: absolute;
+            font-size: 28px;
+            transition: all 0.5s ease;
+        }
+        
+        .seated-bot:nth-child(1) { top: -20px; left: 50%; transform: translateX(-50%); }
+        .seated-bot:nth-child(2) { top: 10%; right: -30px; }
+        .seated-bot:nth-child(3) { bottom: 10%; right: -30px; }
+        .seated-bot:nth-child(4) { bottom: -20px; left: 50%; transform: translateX(-50%); }
+        .seated-bot:nth-child(5) { bottom: 10%; left: -30px; }
+        .seated-bot:nth-child(6) { top: 10%; left: -30px; }
+        
+        .work-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none;
+        }
+        
+        .work-area.active {
+            display: block;
+        }
+        
+        .desk-row {
+            position: absolute;
+            display: flex;
+            gap: 30px;
+        }
+        
+        .desk-row.top { top: 20px; left: 50%; transform: translateX(-50%); }
+        .desk-row.bottom { bottom: 20px; left: 50%; transform: translateX(-50%); }
+        
+        .desk-with-bot {
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
         }
         
-        .monitor {
-            width: 40px;
-            height: 30px;
-            background: #0f0f1a;
+        .desk-monitor {
+            width: 35px;
+            height: 28px;
+            background: #1a1a2a;
             border: 2px solid #3a3a5a;
             border-radius: 4px;
             position: relative;
         }
         
-        .monitor-screen {
+        .desk-screen {
             position: absolute;
-            inset: 3px;
+            inset: 2px;
             background: linear-gradient(135deg, #00ff88 0%, #00aa55 100%);
             border-radius: 2px;
-            opacity: 0.8;
+            opacity: 0.7;
         }
         
-        .monitor-stand {
-            width: 8px;
-            height: 10px;
-            background: #3a3a5a;
-            margin: 0 auto;
-        }
-        
-        .desk-surface {
-            width: 60px;
+        .desk-keyboard {
+            width: 30px;
             height: 8px;
-            background: linear-gradient(180deg, #4a4a6a 0%, #3a3a5a 100%);
-            border-radius: 2px;
-        }
-        
-        .character {
-            position: absolute;
-            bottom: 60px;
-            font-size: 24px;
-            animation: bounce 2s ease-in-out infinite;
-        }
-        
-        .character:nth-child(1) { animation-delay: 0s; }
-        .character:nth-child(2) { animation-delay: 0.3s; }
-        .character:nth-child(3) { animation-delay: 0.6s; }
-        .character:nth-child(4) { animation-delay: 0.9s; }
-        .character:nth-child(5) { animation-delay: 1.2s; }
-        .character:nth-child(6) { animation-delay: 1.5s; }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-        
-        .bubble {
-            position: absolute;
-            bottom: 90px;
             background: #2a2a4a;
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 10px;
-            white-space: nowrap;
-            opacity: 0;
-            animation: fadeTalk 3s ease-in-out infinite;
+            border-radius: 2px;
+            margin-top: 2px;
         }
         
-        .bubble:nth-child(7) { animation-delay: 0s; left: 10%; }
-        .bubble:nth-child(8) { animation-delay: 1s; left: 30%; }
-        .bubble:nth-child(9) { animation-delay: 2s; left: 50%; }
-        
-        @keyframes fadeTalk {
-            0%, 100% { opacity: 0; }
-            20%, 80% { opacity: 1; }
-        }
-        
-        .coffee-mug {
-            position: absolute;
-            bottom: 48px;
-            font-size: 12px;
-        }
-        
-        .lamp {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        .active-bot {
             font-size: 24px;
-            animation: glow 3s ease-in-out infinite;
+            margin-bottom: 8px;
+            animation: typing 1s ease-in-out infinite;
         }
         
-        @keyframes glow {
-            0%, 100% { opacity: 0.6; filter: brightness(1); }
-            50% { opacity: 1; filter: brightness(1.3); }
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
         }
         
-        .window {
+        .decor-plant {
             position: absolute;
-            top: 15px;
-            left: 20px;
-            width: 50px;
-            height: 40px;
-            background: linear-gradient(180deg, #1a3a5a 0%, #0a2a4a 100%);
-            border: 3px solid #3a3a5a;
-            border-radius: 4px;
+            font-size: 24px;
         }
         
-        .window::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #3a3a5a;
-        }
+        .decor-plant:nth-child(1) { top: 20px; left: 20px; }
+        .decor-plant:nth-child(2) { top: 20px; right: 20px; }
+        .decor-plant:nth-child(3) { bottom: 20px; left: 20px; }
+        .decor-plant:nth-child(4) { bottom: 20px; right: 20px; }
         
-        .window::before {
-            content: '';
+        .ceiling-light {
             position: absolute;
-            top: 0;
-            bottom: 0;
+            top: 10px;
             left: 50%;
-            width: 2px;
-            background: #3a3a5a;
             transform: translateX(-50%);
+            font-size: 20px;
+            animation: flicker 4s ease-in-out infinite;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
@@ -652,28 +636,42 @@
         
         <!-- Office Animation -->
         <div class="office-scene">
-            <div class="window"></div>
-            <div class="lamp">💡</div>
-            <div class="character" style="left: 8%">👑</div>
-            <div class="character" style="left: 24%">💻</div>
-            <div class="character" style="left: 40%">🎨</div>
-            <div class="character" style="left: 56%">✨</div>
-            <div class="character" style="left: 72%">🔍</div>
-            <div class="character" style="left: 88%">✍️</div>
-            <div class="bubble" style="left: 8%">Managing...</div>
-            <div class="bubble" style="left: 40%">Designing...</div>
-            <div class="bubble" style="left: 72%">Researching...</div>
-            <div class="coffee-mug" style="left: 15%">☕</div>
-            <div class="coffee-mug" style="right: 15%">🌿</div>
-            <div class="desk">
-                <div class="workstation"><div class="monitor"><div class="monitor-screen"></div></div><div class="monitor-stand"></div><div class="desk-surface"></div></div>
-                <div class="workstation"><div class="monitor"><div class="monitor-screen"></div></div><div class="monitor-stand"></div><div class="desk-surface"></div></div>
-                <div class="workstation"><div class="monitor"><div class="monitor-screen"></div></div><div class="monitor-stand"></div><div class="desk-surface"></div></div>
-                <div class="workstation"><div class="monitor"><div class="monitor-screen"></div></div><div class="monitor-stand"></div><div class="desk-surface"></div></div>
-                <div class="workstation"><div class="monitor"><div class="monitor-screen"></div></div><div class="monitor-stand"></div><div class="desk-surface"></div></div>
-                <div class="workstation"><div class="monitor"><div class="monitor-screen"></div></div><div class="monitor-stand"></div><div class="desk-surface"></div></div>
+            <div class="office-room">
+                <div class="ceiling-light">💡</div>
+                
+                <div class="decor-plant">🌿</div>
+                <div class="decor-plant">🪴</div>
+                <div class="decor-plant">🌵</div>
+                <div class="decor-plant">🌴</div>
+                
+                <!-- Round table with manager -->
+                <div class="round-table">
+                    <div class="manager-bot">👑</div>
+                </div>
+                
+                <!-- Bots sitting around table -->
+                <div class="seated-bot">💻</div>
+                <div class="seated-bot">🎨</div>
+                <div class="seated-bot">✨</div>
+                <div class="seated-bot">🔍</div>
+                <div class="seated-bot">✍️</div>
+                
+                <!-- Work area (shows when bots are active) -->
+                <div class="work-area">
+                    <div class="desk-row top">
+                        <div class="desk-with-bot">
+                            <div class="active-bot">💻</div>
+                            <div class="desk-monitor"><div class="desk-screen"></div></div>
+                            <div class="desk-keyboard"></div>
+                        </div>
+                        <div class="desk-with-bot">
+                            <div class="active-bot">🎨</div>
+                            <div class="desk-monitor"><div class="desk-screen"></div></div>
+                            <div class="desk-keyboard"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="office-floor"></div>
         </div>
         
         <div class="stats-row">
