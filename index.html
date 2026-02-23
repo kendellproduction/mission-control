@@ -35,7 +35,7 @@
             align-items: center;
             padding: 16px 0;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         
         .header h1 {
@@ -48,16 +48,64 @@
             color: var(--green);
         }
         
-        /* Sections */
-        .section {
+        /* Filter Buttons */
+        .filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: #888;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover { border-color: var(--cyan); }
+        
+        .filter-btn.active {
+            background: var(--cyan);
+            color: #000;
+            border-color: var(--cyan);
+        }
+        
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             margin-bottom: 24px;
         }
         
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
+        .stat {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+        
+        .stat-label {
+            font-size: 10px;
+            color: #666;
+            margin-top: 2px;
+        }
+        
+        /* Sections */
+        .section {
+            margin-bottom: 24px;
         }
         
         .section-title {
@@ -66,6 +114,9 @@
             color: var(--cyan);
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
         }
         
         /* Task List */
@@ -83,6 +134,11 @@
             background: var(--card);
             border-radius: 10px;
             border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        
+        .task:hover {
+            border-color: #333;
         }
         
         .task-checkbox {
@@ -110,22 +166,29 @@
             margin-top: 2px;
         }
         
-        .priority {
-            font-size: 10px;
-            padding: 3px 8px;
+        .task-tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        
+        .tag {
+            font-size: 9px;
+            padding: 2px 8px;
             border-radius: 4px;
             text-transform: uppercase;
         }
         
-        .priority.high { background: rgba(255,68,68,0.2); color: var(--red); }
-        .priority.medium { background: rgba(255,170,0,0.2); color: var(--amber); }
-        .priority.low { background: rgba(0,255,136,0.2); color: var(--green); }
+        .tag.project { background: rgba(0,212,255,0.2); color: var(--cyan); }
+        .tag.priority-high { background: rgba(255,68,68,0.2); color: var(--red); }
+        .tag.priority-medium { background: rgba(255,170,0,0.2); color: var(--amber); }
+        .tag.priority-low { background: rgba(0,255,136,0.2); color: var(--green); }
         
         /* Add Task */
         .add-task {
             display: flex;
             gap: 8px;
-            margin-top: 12px;
+            margin-bottom: 20px;
         }
         
         .add-task input {
@@ -140,6 +203,15 @@
         
         .add-task input::placeholder { color: #555; }
         
+        .add-task select {
+            padding: 12px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+        }
+        
         .add-task button {
             padding: 12px 20px;
             background: var(--cyan);
@@ -150,44 +222,25 @@
             cursor: pointer;
         }
         
-        /* Planning Section */
-        .plan-card {
-            background: var(--card);
-            border-radius: 10px;
-            padding: 16px;
-            border: 1px solid var(--border);
-            margin-bottom: 12px;
-        }
-        
-        .plan-card h3 {
-            font-size: 15px;
-            margin-bottom: 8px;
-        }
-        
-        .plan-card p {
-            font-size: 13px;
-            color: #888;
-            line-height: 1.6;
-        }
-        
+        /* Planning */
         .plan-input {
             width: 100%;
-            padding: 12px;
-            background: var(--dark);
+            padding: 14px;
+            background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             color: #fff;
             font-size: 13px;
-            margin-top: 10px;
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
+            font-family: inherit;
         }
         
         /* Goals */
         .goal {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             padding: 12px;
             background: var(--card);
             border-radius: 8px;
@@ -195,7 +248,7 @@
         }
         
         .goal-progress {
-            width: 60px;
+            width: 80px;
             height: 6px;
             background: var(--border);
             border-radius: 3px;
@@ -206,78 +259,32 @@
             height: 100%;
             background: var(--cyan);
             border-radius: 3px;
+            transition: width 0.3s;
         }
         
         .goal-text { flex: 1; font-size: 13px; }
         .goal-percent { font-size: 12px; color: var(--cyan); }
         
-        /* Quick Actions */
-        .actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        
-        .action-btn {
-            padding: 16px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 13px;
-            cursor: pointer;
-            text-align: center;
-        }
-        
-        .action-btn:hover { border-color: var(--cyan); }
-        
-        /* Stats */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 24px;
-        }
-        
-        .stat {
-            background: var(--card);
-            border-radius: 10px;
-            padding: 16px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-        
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--cyan);
-        }
-        
-        .stat-label {
-            font-size: 11px;
-            color: #666;
-            margin-top: 4px;
-        }
-        
         /* Notes */
-        .notes {
-            background: var(--card);
-            border-radius: 10px;
-            padding: 16px;
-            border: 1px solid var(--border);
-        }
-        
         .notes textarea {
             width: 100%;
-            min-height: 100px;
-            background: var(--dark);
+            min-height: 80px;
+            padding: 14px;
+            background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             color: #fff;
-            padding: 12px;
             font-size: 13px;
             resize: vertical;
             font-family: inherit;
+        }
+        
+        /* Empty state */
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #555;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -288,6 +295,15 @@
             <div class="status">● Online</div>
         </div>
         
+        <!-- Filters -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterTasks('all')">All</button>
+            <button class="filter-btn" onclick="filterTasks('helpuscape')">HelpUscape</button>
+            <button class="filter-btn" onclick="filterTasks('lake-salt')">Lake Salt</button>
+            <button class="filter-btn" onclick="filterTasks('setup')">Setup</button>
+            <button class="filter-btn" onclick="filterTasks('done')">Done</button>
+        </div>
+        
         <!-- Stats -->
         <div class="stats">
             <div class="stat">
@@ -295,127 +311,62 @@
                 <div class="stat-label">Total</div>
             </div>
             <div class="stat">
-                <div class="stat-value" id="doneTasks">4</div>
-                <div class="stat-label">Done</div>
+                <div class="stat-value" id="activeTasks">4</div>
+                <div class="stat-label">Active</div>
             </div>
             <div class="stat">
-                <div class="stat-value" id="remainingTasks">4</div>
-                <div class="stat-label">Remaining</div>
+                <div class="stat-value" id="doneCount">4</div>
+                <div class="stat-label">Done</div>
             </div>
         </div>
         
-        <!-- Today's Tasks -->
+        <!-- Add Task -->
+        <div class="add-task">
+            <input type="text" id="newTaskInput" placeholder="New task...">
+            <select id="newTaskProject">
+                <option value="setup">Setup</option>
+                <option value="helpuscape">HelpUscape</option>
+                <option value="lake-salt">Lake Salt</option>
+                <option value="other">Other</option>
+            </select>
+            <button onclick="addTask()">+</button>
+        </div>
+        
+        <!-- Active Tasks -->
         <div class="section">
-            <div class="section-header">
-                <span class="section-title">📋 Today's Tasks</span>
-            </div>
-            
-            <div class="task-list" id="taskList">
-                <div class="task">
-                    <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
-                    <div class="task-content">
-                        <div class="task-title">Set up Goober + Telegram</div>
-                        <div class="task-meta">Setup</div>
-                    </div>
-                    <span class="priority high">Done</span>
-                </div>
-                
-                <div class="task">
-                    <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
-                    <div class="task-content">
-                        <div class="task-title">Create Mission Control</div>
-                        <div class="task-meta">Setup</div>
-                    </div>
-                    <span class="priority high">Done</span>
-                </div>
-                
-                <div class="task">
-                    <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
-                    <div class="task-content">
-                        <div class="task-title">Fix HelpUscape contact form</div>
-                        <div class="task-meta">HelpUscape</div>
-                    </div>
-                    <span class="priority high">Done</span>
-                </div>
-                
-                <div class="task">
-                    <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
-                    <div class="task-content">
-                        <div class="task-title">Set up Notion workspace</div>
-                        <div class="task-meta">Setup</div>
-                    </div>
-                    <span class="priority high">Done</span>
-                </div>
-                
-                <div class="task">
-                    <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
-                    <div class="task-content">
-                        <div class="task-title">Set up Firebase for HelpUscape</div>
-                        <div class="task-meta">HelpUscape</div>
-                    </div>
-                    <span class="priority high">High</span>
-                </div>
-                
-                <div class="task">
-                    <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
-                    <div class="task-content">
-                        <div class="task-title">Set up Vercel deployment</div>
-                        <div class="task-meta">Infrastructure</div>
-                    </div>
-                    <span class="priority high">High</span>
-                </div>
-                
-                <div class="task">
-                    <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
-                    <div class="task-content">
-                        <div class="task-title">Apply to SLC Farmers Market</div>
-                        <div class="task-meta">Lake Salt</div>
-                    </div>
-                    <span class="priority medium">Med</span>
-                </div>
-                
-                <div class="task">
-                    <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
-                    <div class="task-content">
-                        <div class="task-title">Wedding expo materials (May 9)</div>
-                        <div class="task-meta">Lake Salt</div>
-                    </div>
-                    <span class="priority medium">Med</span>
-                </div>
+            <div class="section-title">📋 Active Tasks</div>
+            <div class="task-list" id="activeTasksList">
+                <!-- Tasks will be rendered here -->
             </div>
         </div>
         
-        <!-- Planning -->
+        <!-- Done Tasks -->
         <div class="section">
-            <div class="section-header">
-                <span class="section-title">🧠 This Week's Plan</span>
+            <div class="section-title">✅ Completed</div>
+            <div class="task-list" id="doneTasksList">
+                <!-- Done tasks will be rendered here -->
             </div>
-            
-            <div class="plan-card">
-                <h3>What do you want to accomplish?</h3>
-                <p>Write your main goals for this week.</p>
-                <textarea class="plan-input" id="weeklyPlan" placeholder="Example:&#10;- Complete HelpUscape design review&#10;- Set up Firebase&#10;- Start Lake Salt planning"></textarea>
-            </div>
+        </div>
+        
+        <!-- Weekly Plan -->
+        <div class="section">
+            <div class="section-title">🧠 This Week's Plan</div>
+            <textarea class="plan-input" id="weeklyPlan" placeholder="What do you want to accomplish this week?"></textarea>
         </div>
         
         <!-- Goals -->
         <div class="section">
-            <div class="section-header">
-                <span class="section-title">🎯 Goals Progress</span>
-            </div>
-            
+            <div class="section-title">🎯 Goals</div>
             <div class="goal">
                 <div class="goal-text">PM Career Transition</div>
                 <div class="goal-progress"><div class="goal-bar" style="width: 30%"></div></div>
                 <div class="goal-percent">30%</div>
             </div>
-            
             <div class="goal">
                 <div class="goal-text">Lake Salt Launch</div>
                 <div class="goal-progress"><div class="goal-bar" style="width: 10%"></div></div>
                 <div class="goal-percent">10%</div>
             </div>
-            
             <div class="goal">
                 <div class="goal-text">HelpUscape Live</div>
                 <div class="goal-progress"><div class="goal-bar" style="width: 60%"></div></div>
@@ -423,61 +374,159 @@
             </div>
         </div>
         
-        <!-- Quick Notes -->
+        <!-- Notes -->
         <div class="section">
-            <div class="section-header">
-                <span class="section-title">📝 Quick Notes</span>
-            </div>
-            
-            <div class="notes">
-                <textarea id="quickNotes" placeholder="Any thoughts, ideas, or reminders..."></textarea>
-            </div>
-        </div>
-        
-        <!-- Actions -->
-        <div class="section">
-            <div class="actions">
-                <button class="action-btn" onclick="alert('Feature coming soon!')">+ Add Task</button>
-                <button class="action-btn" onclick="alert('Feature coming soon!')">Save Plan</button>
-            </div>
+            <div class="section-title">📝 Quick Notes</div>
+            <textarea id="quickNotes" placeholder="Any thoughts or reminders..."></textarea>
         </div>
     </div>
     
     <script>
-        function toggleTask(checkbox) {
-            const task = checkbox.closest('.task');
-            if (checkbox.checked) {
-                task.classList.add('done');
-            } else {
-                task.classList.remove('done');
+        // Task data
+        let tasks = [
+            { id: 1, title: "Set up Goober + Telegram", project: "setup", priority: "high", done: true },
+            { id: 2, title: "Create Mission Control", project: "setup", priority: "high", done: true },
+            { id: 3, title: "Fix HelpUscape contact form", project: "helpuscape", priority: "high", done: true },
+            { id: 4, title: "Set up Notion workspace", project: "setup", priority: "high", done: true },
+            { id: 5, title: "Set up Firebase for HelpUscape", project: "helpuscape", priority: "high", done: false },
+            { id: 6, title: "Set up Vercel deployment", project: "setup", priority: "high", done: false },
+            { id: 7, title: "Apply to SLC Farmers Market", project: "lake-salt", priority: "medium", done: false },
+            { id: 8, title: "Wedding expo materials (May 9)", project: "lake-salt", priority: "medium", done: false },
+        ];
+        
+        let currentFilter = 'all';
+        
+        function renderTasks() {
+            const activeList = document.getElementById('activeTasksList');
+            const doneList = document.getElementById('doneTasksList');
+            
+            const active = tasks.filter(t => !t.done);
+            const done = tasks.filter(t => t.done);
+            
+            // Filter based on current filter
+            let filteredActive = active;
+            let filteredDone = done;
+            
+            if (currentFilter === 'done') {
+                filteredActive = [];
+                filteredDone = done;
+            } else if (currentFilter !== 'all') {
+                filteredActive = active.filter(t => t.project === currentFilter);
             }
-            updateStats();
-        }
-        
-        function updateStats() {
-            const tasks = document.querySelectorAll('.task');
-            const checked = document.querySelectorAll('.task-checkbox:checked');
+            
+            // Render active tasks
+            if (filteredActive.length === 0) {
+                activeList.innerHTML = '<div class="empty">No active tasks</div>';
+            } else {
+                activeList.innerHTML = filteredActive.map(task => createTaskHTML(task)).join('');
+            }
+            
+            // Render done tasks
+            if (currentFilter === 'done' || currentFilter === 'all') {
+                if (filteredDone.length === 0) {
+                    doneList.innerHTML = '<div class="empty">No completed tasks yet</div>';
+                } else {
+                    doneList.innerHTML = filteredDone.map(task => createTaskHTML(task)).join('');
+                }
+            } else {
+                doneList.innerHTML = '';
+            }
+            
+            // Update stats
             document.getElementById('totalTasks').textContent = tasks.length;
-            document.getElementById('doneTasks').textContent = checked.length;
-            document.getElementById('remainingTasks').textContent = tasks.length - checked.length;
+            document.getElementById('activeTasks').textContent = active.length;
+            document.getElementById('doneCount').textContent = done.length;
         }
         
-        // Save to localStorage
-        document.getElementById('weeklyPlan').addEventListener('input', function() {
-            localStorage.setItem('weeklyPlan', this.value);
-        });
+        function createTaskHTML(task) {
+            const projectNames = {
+                'helpuscape': 'HelpUscape',
+                'lake-salt': 'Lake Salt',
+                'setup': 'Setup',
+                'other': 'Other'
+            };
+            
+            return `
+                <div class="task ${task.done ? 'done' : ''}">
+                    <input type="checkbox" class="task-checkbox" 
+                        ${task.done ? 'checked' : ''} 
+                        onchange="toggleTask(${task.id})">
+                    <div class="task-content">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-meta">${projectNames[task.project]}</div>
+                        <div class="task-tags">
+                            <span class="tag project">${projectNames[task.project]}</span>
+                            <span class="tag priority-${task.priority}">${task.priority}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
         
-        document.getElementById('quickNotes').addEventListener('input', function() {
-            localStorage.setItem('quickNotes', this.value);
-        });
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.done = !task.done;
+                renderTasks();
+                saveTasks();
+            }
+        }
+        
+        function filterTasks(filter) {
+            currentFilter = filter;
+            
+            // Update button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderTasks();
+        }
+        
+        function addTask() {
+            const input = document.getElementById('newTaskInput');
+            const project = document.getElementById('newTaskProject');
+            
+            if (input.value.trim()) {
+                tasks.push({
+                    id: Date.now(),
+                    title: input.value.trim(),
+                    project: project.value,
+                    priority: 'medium',
+                    done: false
+                });
+                input.value = '';
+                renderTasks();
+                saveTasks();
+            }
+        }
+        
+        function saveTasks() {
+            localStorage.setItem('missionControlTasks', JSON.stringify(tasks));
+            localStorage.setItem('weeklyPlan', document.getElementById('weeklyPlan').value);
+            localStorage.setItem('quickNotes', document.getElementById('quickNotes').value);
+        }
         
         // Load from localStorage
         window.addEventListener('load', function() {
+            const saved = localStorage.getItem('missionControlTasks');
+            if (saved) {
+                tasks = JSON.parse(saved);
+            }
+            
             const weeklyPlan = localStorage.getItem('weeklyPlan');
             const quickNotes = localStorage.getItem('quickNotes');
+            
             if (weeklyPlan) document.getElementById('weeklyPlan').value = weeklyPlan;
             if (quickNotes) document.getElementById('quickNotes').value = quickNotes;
+            
+            renderTasks();
         });
+        
+        // Auto-save on input
+        document.getElementById('weeklyPlan').addEventListener('input', saveTasks);
+        document.getElementById('quickNotes').addEventListener('input', saveTasks);
     </script>
 </body>
 </html>
